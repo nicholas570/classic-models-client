@@ -1,6 +1,6 @@
 import { Machine } from 'xstate';
-import { FormEvents } from './definition/FormEvents';
-import { FormSchema } from './definition/FormSchema';
+import { FormEvents } from '../definition/FormEvents';
+import { FormSchema } from '../definition/FormSchema';
 import { FormMachineConfig } from './FormMachineConfig';
 import { FormMachineOptions } from './FormMachineOptions';
 

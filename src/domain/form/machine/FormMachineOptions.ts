@@ -1,11 +1,5 @@
-import {
-  ActivityConfig,
-  AssignAction,
-  DelayFunctionMap,
-  DoneEventObject,
-  MachineOptions
-} from 'xstate';
-import { FormEvents } from './definition/FormEvents';
+import { ActivityConfig, AssignAction, DelayFunctionMap, DoneEventObject, MachineOptions } from 'xstate';
+import { FormEvents } from '../definition/FormEvents';
 
 export interface FormMachineOptions<T> extends MachineOptions<T, FormEvents> {
   guards: {

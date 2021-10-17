@@ -1,6 +1,6 @@
 import { MachineConfig } from 'xstate';
-import { FormEvent, FormEvents } from './definition/FormEvents';
-import { FormSchema, FormStates } from './definition/FormSchema';
+import { FormEvent, FormEvents } from '../definition/FormEvents';
+import { FormSchema, FormStates } from '../definition/FormSchema';
 
 const onFormUpdate = { target: FormStates.Editing, actions: 'onUpdate' };
 export const FormMachineConfig: MachineConfig<any, FormSchema, FormEvents> = {
