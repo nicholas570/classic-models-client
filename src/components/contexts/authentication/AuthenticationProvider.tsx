@@ -21,7 +21,7 @@ interface AuthenticationProviderProps {
   children: JSX.Element;
 }
 
-const AuthenticationContext = createContext<Authentication>({});
+export const AuthenticationContext = createContext<Authentication>({});
 
 export const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
   const authService = useInterpret(AuthMachine);

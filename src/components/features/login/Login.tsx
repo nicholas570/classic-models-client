@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { ChangeEvent, useContext } from 'react';
+import { useActor } from '@xstate/react';
 import { Container, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Grid, Link } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Copyright } from '../copyright/Copyright';
+import { AuthenticationContext } from '../../contexts/authentication/AuthenticationProvider';
+import { FormEvent } from '../../../domain/form/definition/FormEvents';
 
 export const Login = () => {
+  const { loginService } = useContext(AuthenticationContext);
+
+  const [state, sendToService] = useActor(loginService!);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    sendToService({ type: FormEvent.UpdateForm, formData: { [event.target.name]: event.target.value } });
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -21,7 +32,17 @@ export const Login = () => {
           Sign in
         </Typography>
         <Box component="form" onSubmit={() => console.log('submit')} noValidate sx={{ mt: 1 }}>
-          <TextField margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="login"
+            autoComplete="email"
+            autoFocus
+            onChange={(event) => handleChange(event)}
+          />
           <TextField
             margin="normal"
             required
@@ -31,6 +52,7 @@ export const Login = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(event) => handleChange(event)}
           />
           <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>

@@ -1,6 +1,6 @@
 import { get, isEmpty } from 'lodash';
 import { assign, DoneEventObject } from 'xstate';
-import { FormEvents } from '../../form/definition/FormEvents';
+import { FormEvents, FormUpdateEvent } from '../../form/definition/FormEvents';
 import { FormMachineOptions } from '../../form/machine/FormMachineOptions';
 import { LoginContext } from '../definition/LoginContext';
 
@@ -46,10 +46,11 @@ export const LoginOptions: FormMachineOptions<LoginContext> = {
       };
     }),
     onUpdate: assign((context: LoginContext, event: FormEvents) => {
+      const { formData } = event as FormUpdateEvent;
       return {
         ...context,
         invalidMessage: undefined,
-        ...get(event, 'formData')
+        ...formData
       };
     })
   },

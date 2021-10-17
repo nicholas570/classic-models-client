@@ -3,13 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": [
-    "plugin:react/recommended",
-    "airbnb",
-    "airbnb-typescript",
-    "plugin:@typescript-eslint/recommended",
-    "prettier"
-  ],
+  "extends": ["plugin:react/recommended", "airbnb", "airbnb-typescript", "plugin:@typescript-eslint/recommended", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -27,7 +21,9 @@
     "react/no-unescaped-entities": 0,
     "comma-dangle": ["error", "never"],
     "@typescript-eslint/no-explicit-any": 0,
-    "@typescript-eslint/explicit-module-boundary-types": 0
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+    "@typescript-eslint/no-unused-vars": 0,
+    "@typescript-eslint/no-non-null-assertion": 0
   },
   "ignorePatterns": [".eslintrc.json"]
 }

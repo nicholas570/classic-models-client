@@ -2,6 +2,6 @@ export enum FormEvent {
   Validate = 'validate',
   UpdateForm = 'update'
 }
-export type FormEvents =
-  | { type: FormEvent.UpdateForm; formData: any }
-  | { type: FormEvent.Validate };
+export type FormUpdateEvent = { type: FormEvent.UpdateForm; formData: any };
+
+export type FormEvents = FormUpdateEvent | { type: FormEvent.Validate };
