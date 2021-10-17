@@ -4,7 +4,7 @@ import { Home } from '../features/home/Home';
 import { Login } from '../features/login/Login';
 import { Register } from '../features/register/Register';
 
-export const Router: React.FC = () => {
+export const Router = () => {
   return (
     <BrowserRouter>
       <Switch>

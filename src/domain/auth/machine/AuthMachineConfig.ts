@@ -25,7 +25,7 @@ export const AuthMachineConfig: MachineConfig<void, AuthSchema, AuthEvent> = {
       }
     },
     [AuthStates.Authenticated]: {
-      // type: "final"
+      type: 'final'
     }
   }
 };

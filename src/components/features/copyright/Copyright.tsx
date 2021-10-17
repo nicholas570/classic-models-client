@@ -5,7 +5,7 @@ interface CopyrightProps {
   sx: { mt?: number; mb?: number };
 }
 
-export const Copyright = ({ sx }: CopyrightProps): JSX.Element => {
+export const Copyright = ({ sx }: CopyrightProps) => {
   return (
     <Typography variant="body2" color="text.secondary" align="center" sx={sx}>
       Copyright ©
