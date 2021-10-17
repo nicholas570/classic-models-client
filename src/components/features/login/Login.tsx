@@ -1,6 +1,6 @@
+import React from 'react';
 import {
   Container,
-  CssBaseline,
   Box,
   Avatar,
   Typography,
@@ -9,10 +9,9 @@ import {
   Checkbox,
   Button,
   Grid,
-  Link,
+  Link
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import React from 'react';
 import { Copyright } from '../copyright/Copyright';
 
 export const Login = (): JSX.Element => {
@@ -23,7 +22,7 @@ export const Login = (): JSX.Element => {
           marginTop: 8,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
