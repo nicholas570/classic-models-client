@@ -1,15 +1,13 @@
 import React from 'react';
 import './App.css';
-import Button from '@mui/material/Button';
+import { Router } from './components/router/Router';
 
-function App(): JSX.Element {
+const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <Button variant="contained">Hello World</Button>
-      </header>
+      <Router />
     </div>
   );
-}
+};
 
 export default App;
