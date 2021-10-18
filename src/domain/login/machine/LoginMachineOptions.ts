@@ -25,8 +25,6 @@ export const LoginOptions: FormMachineOptions<LoginContext> = {
   actions: {
     onUpdate: assign((context: LoginContext, event: FormEvents) => {
       const { formData } = event as FormUpdateEvent;
-      console.log(formData);
-
       return {
         ...context,
         ...formData,
@@ -42,7 +40,7 @@ export const LoginOptions: FormMachineOptions<LoginContext> = {
       }
       if (isEmpty(password)) {
         errors.password = 'Fill-in your Password';
-      } else if (password.length <= 6) {
+      } else if (password.length < 6) {
         errors.password = 'Password is too short :)';
       }
       return {

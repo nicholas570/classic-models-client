@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext } from 'react';
+import React, { ChangeEvent, SyntheticEvent, useContext } from 'react';
 import { useActor, useSelector } from '@xstate/react';
 import { Container, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Grid, Link } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -19,6 +19,11 @@ export const Login = () => {
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     sendToService({ type: FormEvent.UpdateForm, formData: { [event.target.name]: event.target.value } });
   };
+
+  const onSubmit = (event: SyntheticEvent) => {
+    event.preventDefault();
+    sendToService({ type: FormEvent.Validate });
+  };
   console.log(state);
 
   return (
@@ -37,21 +42,22 @@ export const Login = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={() => console.log('submit')} noValidate sx={{ mt: 1 }}>
+        <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={(event: SyntheticEvent) => onSubmit(event)}>
           <TextField
+            inputProps={{ autoComplete: 'off' }}
             margin="normal"
             required
             fullWidth
             id="email"
             label="Email Address"
             name="login"
-            autoComplete="email"
             autoFocus
             onChange={(event) => handleChange(event)}
             helperText={loginErrorMessage}
             error={!!loginErrorMessage}
           />
           <TextField
+            inputProps={{ autoComplete: 'off' }}
             margin="normal"
             required
             fullWidth
@@ -59,7 +65,6 @@ export const Login = () => {
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
             onChange={(event) => handleChange(event)}
             helperText={passwordErrorMessage}
             error={!!passwordErrorMessage}
