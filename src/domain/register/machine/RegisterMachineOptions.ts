@@ -50,8 +50,6 @@ export const RegisterOptions: FormMachineOptions<RegisterContext> = {
       } else if (password.length < 6) {
         errors.password = 'Password is too short :)';
       }
-      console.log(errors);
-
       return {
         ...context,
         errors
