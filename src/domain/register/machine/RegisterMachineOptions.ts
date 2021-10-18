@@ -1,12 +1,16 @@
-import { get, isEmpty, values, every } from 'lodash';
+import { get, isEmpty, every } from 'lodash';
 import { assign, DoneEventObject } from 'xstate';
 import { FormEvents, FormUpdateEvent } from '../../form/definition/FormEvents';
 import { FormMachineOptions } from '../../form/machine/FormMachineOptions';
 import { RegisterContext, RegisterErrors } from '../definition/RegisterContext';
 
 const isComplete = (context: RegisterContext): boolean => {
-  const contextValues = values(context);
-  return !!(context.firstName && context.lastName && context.email && context.password) && every(contextValues, (value) => !isEmpty(value));
+  const formValues = [context.firstName, context.lastName, context.email, context.password];
+  return (
+    !!(context.firstName && context.lastName && context.email && context.password) &&
+    context.password.length >= 6 &&
+    every(formValues, (value) => !isEmpty(value))
+  );
 };
 
 export const RegisterOptions: FormMachineOptions<RegisterContext> = {
@@ -46,6 +50,8 @@ export const RegisterOptions: FormMachineOptions<RegisterContext> = {
       } else if (password.length < 6) {
         errors.password = 'Password is too short :)';
       }
+      console.log(errors);
+
       return {
         ...context,
         errors
