@@ -63,8 +63,7 @@ export const FormMachineConfig: MachineConfig<any, FormSchema, FormEvents> = {
     },
     [FormStates.ValidationFailed]: {
       on: {
-        [FormEvent.UpdateForm]: onFormUpdate,
-        [FormEvent.Validate]: FormStates.Submitting
+        [FormEvent.UpdateForm]: onFormUpdate
       }
     },
     [FormStates.Validated]: {

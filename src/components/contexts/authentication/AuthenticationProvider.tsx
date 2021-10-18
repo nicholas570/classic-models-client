@@ -22,5 +22,7 @@ export const AuthenticationProvider = ({ children }: AuthenticationProviderProps
   const loginService = useInterpret(LoginMachine);
   const registerService = useInterpret(RegisterMachine);
 
+  loginService.onTransition((listener) => console.debug(`Login service: ${listener.value}`));
+
   return <AuthenticationContext.Provider value={{ authService, loginService, registerService }}>{children}</AuthenticationContext.Provider>;
 };

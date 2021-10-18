@@ -15,7 +15,7 @@ export const LoginOptions: FormMachineOptions<LoginContext> = {
   },
   services: {
     submitAsync: async (context: LoginContext): Promise<any> => {
-      await new Promise((res) => setTimeout(res, 2000));
+      await new Promise((res) => setTimeout(res, 1000));
       const serverError = false;
       if (serverError) return Promise.reject();
       const success = context.login === 'mylogin' && context.password === 'mypassword';
