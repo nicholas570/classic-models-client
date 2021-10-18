@@ -16,12 +16,14 @@ import {
   isLoadingSelector,
   isLoggedInSelector
 } from './Selectors';
+import { AuthEvents } from '../../../domain/auth/definition/AuthEvents';
 
 export const Login = () => {
-  const { loginService } = useContext(AuthenticationContext);
+  const { loginService, authService } = useContext(AuthenticationContext);
   const history = useHistory();
 
   const [state, sendToService] = useActor(loginService);
+  const [authState, sendToAuthService] = useActor(authService);
 
   const loginErrorMessage = useSelector(loginService, loginErrorSelector);
   const passwordErrorMessage = useSelector(loginService, passwordErrorSelector);
@@ -110,12 +112,12 @@ export const Login = () => {
           )}
           <Grid container>
             <Grid item xs>
-              <Link href="/" variant="body2">
+              <Link component="button" variant="body2" underline="hover" onClick={() => sendToAuthService({ type: AuthEvents.Forgot })}>
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/register" variant="body2">
+              <Link component="button" variant="body2" underline="hover" onClick={() => sendToAuthService({ type: AuthEvents.Register })}>
                 Don't have an account? Sign Up
               </Link>
             </Grid>

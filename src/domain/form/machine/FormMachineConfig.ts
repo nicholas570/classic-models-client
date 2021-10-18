@@ -7,7 +7,7 @@ const onFormUpdate = [
   { target: FormStates.Editing, actions: 'onUpdate' }
 ];
 export const FormMachineConfig: MachineConfig<any, FormSchema, FormEvents> = {
-  id: 'formMachine',
+  id: 'FormMachine',
   initial: FormStates.Editing,
   states: {
     [FormStates.Editing]: {
