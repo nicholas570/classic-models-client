@@ -4,7 +4,7 @@ import { FormEvents, FormUpdateEvent } from '../../form/definition/FormEvents';
 import { FormMachineOptions } from '../../form/machine/FormMachineOptions';
 import { LoginContext, LoginErrors } from '../definition/LoginContext';
 
-const isComplete = (context: LoginContext): boolean => !isEmpty(context.login) && !!(context.password && context.password.length > 6);
+const isComplete = (context: LoginContext): boolean => !isEmpty(context.login) && !!(context.password && context.password.length >= 6);
 
 export const LoginOptions: FormMachineOptions<LoginContext> = {
   guards: {
@@ -50,11 +50,10 @@ export const LoginOptions: FormMachineOptions<LoginContext> = {
     }),
     onBlock: assign((context: LoginContext, event: FormEvents) => context),
     onValidated: assign((context: LoginContext, event: FormEvents) => context),
-    onFormError: assign((context: LoginContext, event: FormEvents) => {
-      return {
-        ...context,
-        invalidMessage: { login: 'Informations incorrectes' }
-      };
+    onFormError: assign({
+      errors: (context) => {
+        return { invalidCredentials: 'Invalid credentials' };
+      }
     })
   },
   activities: {},

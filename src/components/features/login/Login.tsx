@@ -5,16 +5,18 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Copyright } from '../copyright/Copyright';
 import { AuthenticationContext } from '../../contexts/authentication/AuthenticationProvider';
 import { FormEvent } from '../../../domain/form/definition/FormEvents';
-import { isLoginErrorSelector, isPasswordErrorSelector, isValidationDisabled } from './Selectors';
+import { isInvalidCredentialsSelector, loginErrorSelector, passwordErrorSelector, isValidationDisabledSelector } from './Selectors';
 
 export const Login = () => {
   const { loginService } = useContext(AuthenticationContext);
 
   const [state, sendToService] = useActor(loginService);
 
-  const loginErrorMessage = useSelector(loginService, isLoginErrorSelector);
-  const passwordErrorMessage = useSelector(loginService, isPasswordErrorSelector);
-  const isDisabled = useSelector(loginService, isValidationDisabled);
+  const loginErrorMessage = useSelector(loginService, loginErrorSelector);
+  const passwordErrorMessage = useSelector(loginService, passwordErrorSelector);
+  const isDisabled = useSelector(loginService, isValidationDisabledSelector);
+  const isInvalid = useSelector(loginService, isInvalidCredentialsSelector);
+  const invalidCredentialsMessage = useSelector(loginService, isInvalidCredentialsSelector);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     sendToService({ type: FormEvent.UpdateForm, formData: { [event.target.name]: event.target.value } });
@@ -24,7 +26,7 @@ export const Login = () => {
     event.preventDefault();
     sendToService({ type: FormEvent.Validate });
   };
-  console.log(state);
+  console.log(state.value);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -73,6 +75,11 @@ export const Login = () => {
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} disabled={isDisabled}>
             Sign In
           </Button>
+          {isInvalid && (
+            <Typography component="h1" variant="h5">
+              {invalidCredentialsMessage}
+            </Typography>
+          )}
           <Grid container>
             <Grid item xs>
               <Link href="/" variant="body2">
