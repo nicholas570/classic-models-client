@@ -24,6 +24,8 @@
 
 This application is a authentication form page. So far, there is no server endpoint. Credentials are "mylogin" and "mypassword".
 The purpose is to handle the authentication process and state in several finite state machines using Xstate.
+<br />
+The app can be seen here: https://xstate-auth.netlify.app/
 
 ### Built With
 
@@ -48,7 +50,7 @@ To get a local copy up and running follow these simple steps.
   npm install node@latest -g
   ```
 
-### Installation <br/>
+### Installation <br />
 
 Also works with Yarn
 
