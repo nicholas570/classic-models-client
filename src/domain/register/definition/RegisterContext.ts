@@ -1,8 +1,9 @@
+export type RegisterErrors = { firstName?: string; lastName?: string; email?: string; password?: string };
+
 export interface RegisterContext {
-  login?: string;
+  firstName?: string;
+  lastName?: string;
   password?: string;
-  consent?: boolean;
-  invalidMessage?: string;
-  invalidLogin?: boolean;
-  invalidConsent?: boolean;
+  email?: string;
+  errors?: RegisterErrors;
 }

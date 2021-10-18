@@ -1,13 +1,18 @@
-import { get, isEmpty } from 'lodash';
+import { get, isEmpty, values, every } from 'lodash';
 import { assign, DoneEventObject } from 'xstate';
 import { FormEvents } from '../../form/definition/FormEvents';
 import { FormMachineOptions } from '../../form/machine/FormMachineOptions';
 import { RegisterContext } from '../definition/RegisterContext';
 
+const isComplete = (context: RegisterContext): boolean => {
+  const contextValues = values(context);
+  return !!(context.firstName && context.lastName && context.email && context.password) && every(contextValues, (value) => !isEmpty(value));
+};
+
 export const RegisterOptions: FormMachineOptions<RegisterContext> = {
   guards: {
-    isFormComplete: (context: RegisterContext) => !isEmpty(context.login) && !isEmpty(context.password),
-    isFormIncomplete: (context: RegisterContext) => isEmpty(context.login) || isEmpty(context.password),
+    isFormComplete: (context: RegisterContext) => isComplete(context),
+    isFormIncomplete: (context: RegisterContext) => !isComplete(context),
     isFormValidated: (context: RegisterContext, event: DoneEventObject) => event.data === true,
     shouldBlock: (context: RegisterContext) => true
   },
@@ -16,7 +21,7 @@ export const RegisterOptions: FormMachineOptions<RegisterContext> = {
       await new Promise((res) => setTimeout(res, 2000));
       const serverError = false;
       if (serverError) return Promise.reject();
-      const success = context.login !== 'mylogin';
+      const success = true;
       return Promise.resolve(success);
     }
   },
@@ -25,13 +30,12 @@ export const RegisterOptions: FormMachineOptions<RegisterContext> = {
     onBlock: assign((context: RegisterContext, event: FormEvents) => context),
     onValidated: assign((context: RegisterContext, event: FormEvents) => context),
     onFormError: assign((context: RegisterContext, event: FormEvents) => {
-      const login = get(event, 'formData.login', context.login);
+      const firstName = get(event, 'formData.firstName', context.firstName);
+      const lastName = get(event, 'formData.lastName', context.lastName);
       const password = get(event, 'formData.password', context.password);
-      const consent = get(event, 'formData.consent', context.consent);
+      const email = get(event, 'formData.email', context.email);
       return {
-        invalidLogin: isEmpty(login),
-        invalidPasswordMessage: (password?.length ?? 0) > 6 ? undefined : 'Trop court!',
-        invalidConsent: consent !== true
+        ...context
       };
     }),
     onUpdate: assign((context: RegisterContext, event: FormEvents) => {
