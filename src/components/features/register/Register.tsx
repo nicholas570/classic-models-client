@@ -1,16 +1,22 @@
 import React, { ChangeEvent, SyntheticEvent, useContext } from 'react';
-import { useActor } from '@xstate/react';
+import { useActor, useSelector } from '@xstate/react';
 import { Container, Box, Avatar, Typography, Grid, TextField, FormControlLabel, Checkbox, Button, Link } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Copyright } from '../copyright/Copyright';
 import { AuthenticationContext } from '../../contexts/authentication/AuthenticationProvider';
 import { FormEvent } from '../../../domain/form/definition/FormEvents';
+import { emailErrorSelector, firstNameErrorSelector, lastNameErrorSelector, passwordErrorSelector } from './Selectors';
 
 export const Register = () => {
   const { registerService, authService } = useContext(AuthenticationContext);
 
   const [state, sendToService] = useActor(registerService);
+
+  const firstNameErrorMessage = useSelector(registerService, firstNameErrorSelector);
+  const lastNameErrorMessage = useSelector(registerService, lastNameErrorSelector);
+  const emailErrorMessage = useSelector(registerService, emailErrorSelector);
+  const passwordErrorMessage = useSelector(registerService, passwordErrorSelector);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     sendToService({ type: FormEvent.UpdateForm, formData: { [event.target.name]: event.target.value } });
@@ -41,7 +47,7 @@ export const Register = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
-                autoComplete="given-name"
+                inputProps={{ autoComplete: 'off' }}
                 name="firstName"
                 required
                 fullWidth
@@ -49,40 +55,51 @@ export const Register = () => {
                 label="First Name"
                 autoFocus
                 onChange={(event) => handleChange(event)}
+                helperText={firstNameErrorMessage}
+                error={!!firstNameErrorMessage}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                inputProps={{ autoComplete: 'off' }}
+                name="lastName"
                 required
                 fullWidth
                 id="lastName"
                 label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
+                autoFocus
                 onChange={(event) => handleChange(event)}
+                helperText={lastNameErrorMessage}
+                error={!!lastNameErrorMessage}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                inputProps={{ autoComplete: 'off' }}
                 required
                 fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
-                autoComplete="email"
+                autoFocus
                 onChange={(event) => handleChange(event)}
+                helperText={emailErrorMessage}
+                error={!!emailErrorMessage}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                inputProps={{ autoComplete: 'off' }}
                 required
                 fullWidth
                 name="password"
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="new-password"
+                autoFocus
                 onChange={(event) => handleChange(event)}
+                helperText={passwordErrorMessage}
+                error={!!passwordErrorMessage}
               />
             </Grid>
             <Grid item xs={12}>
