@@ -2,7 +2,7 @@ import { get, isEmpty } from 'lodash';
 import { assign, DoneEventObject } from 'xstate';
 import { FormEvents, FormUpdateEvent } from '../../form/definition/FormEvents';
 import { FormMachineOptions } from '../../form/machine/FormMachineOptions';
-import { LoginContext } from '../definition/LoginContext';
+import { LoginContext, LoginErrors } from '../definition/LoginContext';
 
 const isComplete = (context: LoginContext): boolean => !isEmpty(context.login) && !!(context.password && context.password.length > 6);
 
@@ -23,18 +23,31 @@ export const LoginOptions: FormMachineOptions<LoginContext> = {
     }
   },
   actions: {
+    onUpdate: assign((context: LoginContext, event: FormEvents) => {
+      const { formData } = event as FormUpdateEvent;
+      console.log(formData);
+
+      return {
+        ...context,
+        ...formData,
+        errors: undefined
+      };
+    }),
     updateIncomplete: assign((context: LoginContext, event: FormEvents) => {
       const login = get(event, 'formData.login', context.login);
       const password = get(event, 'formData.password', context.password);
-      const updated: LoginContext = {};
-      if (isEmpty(login) || isEmpty(password)) {
-        updated.invalidMessage = 'Fill-in your login/password';
+      const errors: LoginErrors = {};
+      if (isEmpty(login)) {
+        errors.login = 'Fill-in your login';
+      }
+      if (isEmpty(password)) {
+        errors.password = 'Fill-in your Password';
       } else if (password.length <= 6) {
-        updated.invalidMessage = 'Password is too short :)';
+        errors.password = 'Password is too short :)';
       }
       return {
         ...context,
-        ...updated
+        errors
       };
     }),
     onBlock: assign((context: LoginContext, event: FormEvents) => context),
@@ -42,15 +55,7 @@ export const LoginOptions: FormMachineOptions<LoginContext> = {
     onFormError: assign((context: LoginContext, event: FormEvents) => {
       return {
         ...context,
-        invalidMessage: 'Informations incorrectes'
-      };
-    }),
-    onUpdate: assign((context: LoginContext, event: FormEvents) => {
-      const { formData } = event as FormUpdateEvent;
-      return {
-        ...context,
-        invalidMessage: undefined,
-        ...formData
+        invalidMessage: { login: 'Informations incorrectes' }
       };
     })
   },

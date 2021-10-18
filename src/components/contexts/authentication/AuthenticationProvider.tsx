@@ -1,12 +1,6 @@
 import React, { createContext } from 'react';
 import { useInterpret } from '@xstate/react';
-import { ActorRefFrom, Interpreter } from 'xstate';
-import { AuthEvent } from '../../../domain/auth/definition/AuthEvents';
-import { AuthSchema } from '../../../domain/auth/definition/AuthSchema';
-import { FormEvents } from '../../../domain/form/definition/FormEvents';
-import { FormSchema } from '../../../domain/form/definition/FormSchema';
-import { LoginContext } from '../../../domain/login/definition/LoginContext';
-import { RegisterContext } from '../../../domain/register/definition/RegisterContext';
+import { ActorRefFrom } from 'xstate';
 import { AuthMachine } from '../../../domain/auth/machine/AuthMachine';
 import { LoginMachine } from '../../../domain/login/machine/LoginMachine';
 import { RegisterMachine } from '../../../domain/register/machine/RegisterMachine';

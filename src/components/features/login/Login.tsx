@@ -1,19 +1,25 @@
 import React, { ChangeEvent, useContext } from 'react';
-import { useActor } from '@xstate/react';
+import { useActor, useSelector } from '@xstate/react';
 import { Container, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Grid, Link } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Copyright } from '../copyright/Copyright';
 import { AuthenticationContext } from '../../contexts/authentication/AuthenticationProvider';
 import { FormEvent } from '../../../domain/form/definition/FormEvents';
+import { isLoginErrorSelector, isPasswordErrorSelector, isValidationDisabled } from './Selectors';
 
 export const Login = () => {
   const { loginService } = useContext(AuthenticationContext);
 
-  const [state, sendToService] = useActor(loginService!);
+  const [state, sendToService] = useActor(loginService);
+
+  const loginErrorMessage = useSelector(loginService, isLoginErrorSelector);
+  const passwordErrorMessage = useSelector(loginService, isPasswordErrorSelector);
+  const isDisabled = useSelector(loginService, isValidationDisabled);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     sendToService({ type: FormEvent.UpdateForm, formData: { [event.target.name]: event.target.value } });
   };
+  console.log(state);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -42,6 +48,8 @@ export const Login = () => {
             autoComplete="email"
             autoFocus
             onChange={(event) => handleChange(event)}
+            helperText={loginErrorMessage}
+            error={!!loginErrorMessage}
           />
           <TextField
             margin="normal"
@@ -53,9 +61,11 @@ export const Login = () => {
             id="password"
             autoComplete="current-password"
             onChange={(event) => handleChange(event)}
+            helperText={passwordErrorMessage}
+            error={!!passwordErrorMessage}
           />
           <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} disabled={isDisabled}>
             Sign In
           </Button>
           <Grid container>
