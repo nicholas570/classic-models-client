@@ -1,17 +1,27 @@
 import { useActor, useSelector } from '@xstate/react';
-import React, { useContext } from 'react';
-import { AuthStates } from '../../../domain/auth/definition/AuthSchema';
+import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import { AuthenticationContext } from '../../contexts/authentication/AuthenticationProvider';
 import { Login } from '../login/Login';
 import { Register } from '../register/Register';
-import { forgotSelector, loginSelector, registerSelector } from './Selectors';
+import { forgotSelector, isAuthenticatedSelector, loginSelector, registerSelector } from './Selectors';
 
 export default function Auth() {
   const { authService } = useContext(AuthenticationContext);
+  const history = useHistory();
 
   const login = useSelector(authService, loginSelector);
   const register = useSelector(authService, registerSelector);
   const forgot = useSelector(authService, forgotSelector);
+  const isAuthenticated = useSelector(authService, isAuthenticatedSelector);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setTimeout(() => {
+        history.push('/home');
+      }, 500);
+    }
+  }, [isAuthenticated]);
 
   return login ? <Login /> : register ? <Register /> : forgot ? <div>Forgot form</div> : null;
 }

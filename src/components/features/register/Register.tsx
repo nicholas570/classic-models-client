@@ -20,10 +20,11 @@ import {
 import { AuthEvents } from '../../../domain/auth/definition/AuthEvents';
 
 export const Register = () => {
-  const { registerService, authService } = useContext(AuthenticationContext);
+  const { authService } = useContext(AuthenticationContext);
 
-  const [state, sendToService] = useActor(registerService);
   const [authState, sendToAuthService] = useActor(authService);
+  const registerService = authState.context.registerRef;
+  const [state, sendToService] = useActor(registerService);
 
   const firstNameErrorMessage = useSelector(registerService, firstNameErrorSelector);
   const lastNameErrorMessage = useSelector(registerService, lastNameErrorSelector);
