@@ -33,7 +33,6 @@ export const Register = () => {
   const isDisabled = useSelector(registerService, isValidationDisabledSelector);
   const isLoading = useSelector(registerService, isLoadingSelector);
   const isInvalid = useSelector(registerService, isInvalidCredentialsSelector);
-
   const invalidCredentialsMessage = useSelector(registerService, invalidCredentialsSelector);
   const isRegistered = useSelector(registerService, isRegisteredSelector);
 

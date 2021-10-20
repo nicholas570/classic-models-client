@@ -1,4 +1,4 @@
-import { useActor, useSelector } from '@xstate/react';
+import { useSelector } from '@xstate/react';
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { AuthenticationContext } from '../../contexts/authentication/AuthenticationProvider';

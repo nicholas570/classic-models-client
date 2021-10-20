@@ -1,4 +1,3 @@
-import { assign } from 'lodash';
 import { MachineConfig } from 'xstate';
 import { FormEvent } from '../../form/definition/FormEvents';
 import { AuthContext } from '../definition/AuthContext';
@@ -10,16 +9,19 @@ export const AuthMachineConfig: MachineConfig<AuthContext, AuthSchema, AuthEvent
   initial: AuthStates.SignIn,
   states: {
     [AuthStates.Register]: {
-      entry: 'assignRegisterRef',
       on: {
         [AuthEvents.SignIn]: AuthStates.SignIn,
+        [FormEvent.Validate]: AuthStates.SignIn,
         [AuthEvents.Forgot]: AuthStates.Forgot
       }
     },
     [AuthStates.SignIn]: {
       entry: 'assignLoginRef',
       on: {
-        [AuthEvents.Register]: AuthStates.Register,
+        [AuthEvents.Register]: {
+          target: AuthStates.Register,
+          actions: 'assignRegisterRef'
+        },
         [AuthEvents.Forgot]: AuthStates.Forgot,
         [FormEvent.Validate]: {
           target: AuthStates.Authenticated,

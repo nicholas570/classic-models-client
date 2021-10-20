@@ -1,6 +1,6 @@
 import { get, isEmpty, every } from 'lodash';
-import { assign, DoneEventObject } from 'xstate';
-import { FormEvents, FormUpdateEvent } from '../../form/definition/FormEvents';
+import { assign, DoneEventObject, sendParent } from 'xstate';
+import { FormEvent, FormEvents, FormUpdateEvent } from '../../form/definition/FormEvents';
 import { FormMachineOptions } from '../../form/machine/FormMachineOptions';
 import { RegisterContext, RegisterErrors } from '../definition/RegisterContext';
 
@@ -63,13 +63,15 @@ export const RegisterOptions: FormMachineOptions<RegisterContext> = {
         errors: undefined
       };
     }),
+    onValidated: sendParent((context, event: DoneEventObject) => {
+      return { type: FormEvent.Validate, data: true };
+    }),
     onFormError: assign({
       errors: (context) => {
         return { invalidCredentials: 'Invalid credentials' };
       }
     }),
-    onBlock: assign((context: RegisterContext, event: FormEvents) => context),
-    onValidated: assign((context: RegisterContext, event: FormEvents) => context)
+    onBlock: assign((context: RegisterContext, event: FormEvents) => context)
   },
   activities: {},
   delays: {}

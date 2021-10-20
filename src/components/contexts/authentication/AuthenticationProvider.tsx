@@ -2,12 +2,9 @@ import React, { createContext } from 'react';
 import { useInterpret } from '@xstate/react';
 import { ActorRefFrom } from 'xstate';
 import { AuthMachine } from '../../../domain/auth/machine/AuthMachine';
-import { LoginMachine } from '../../../domain/login/machine/LoginMachine';
-import { RegisterMachine } from '../../../domain/register/machine/RegisterMachine';
 
 interface AuthenticationContextType {
   authService: ActorRefFrom<typeof AuthMachine>;
-  registerService: ActorRefFrom<typeof RegisterMachine>;
 }
 
 interface AuthenticationProviderProps {
@@ -24,10 +21,8 @@ export const AuthenticationProvider = ({ children }: AuthenticationProviderProps
    * These service should be subscribed in consumers
    */
   const authService = useInterpret(AuthMachine);
-  const registerService = useInterpret(RegisterMachine);
 
   authService.onTransition((listener) => console.debug(`Auth service: ${listener.value}`));
-  registerService.onTransition((listener) => console.debug(`Register service: ${listener.value}`));
 
-  return <AuthenticationContext.Provider value={{ authService, registerService }}>{children}</AuthenticationContext.Provider>;
+  return <AuthenticationContext.Provider value={{ authService }}>{children}</AuthenticationContext.Provider>;
 };
