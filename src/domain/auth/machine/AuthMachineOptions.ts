@@ -1,4 +1,5 @@
-import { assign, MachineOptions, spawn } from 'xstate';
+import { assign, DoneEventObject, MachineOptions, spawn } from 'xstate';
+import { getUser } from '../../api/getUser';
 import { FormValidateEvent } from '../../form/definition/FormEvents';
 import { LoginMachine } from '../../login/machine/LoginMachine';
 import { RegisterMachine } from '../../register/machine/RegisterMachine';
@@ -6,6 +7,7 @@ import { AuthContext } from '../definition/AuthContext';
 import { AuthEvent } from '../definition/AuthEvents';
 
 export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
+  services: {},
   actions: {
     assignLoginRef: assign({
       loginRef: (context) =>
@@ -39,7 +41,6 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
     })
   },
   guards: {},
-  services: {},
   activities: {},
   delays: {}
 };
