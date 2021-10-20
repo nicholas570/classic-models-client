@@ -1,5 +1,4 @@
-import React, { ChangeEvent, SyntheticEvent, useContext, useEffect } from 'react';
-import { useHistory } from 'react-router';
+import React, { ChangeEvent, SyntheticEvent, useContext } from 'react';
 import { useActor, useSelector } from '@xstate/react';
 import { Container, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Grid, Link } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -19,11 +18,11 @@ import {
 import { AuthEvents } from '../../../domain/auth/definition/AuthEvents';
 
 export const Login = () => {
-  const { loginService, authService } = useContext(AuthenticationContext);
-  const history = useHistory();
+  const { authService } = useContext(AuthenticationContext);
 
-  const [state, sendToService] = useActor(loginService);
   const [authState, sendToAuthService] = useActor(authService);
+  const loginService = authState.context.loginRef;
+  const [state, sendToService] = useActor(authState.context.loginRef);
 
   const loginErrorMessage = useSelector(loginService, loginErrorSelector);
   const passwordErrorMessage = useSelector(loginService, passwordErrorSelector);
@@ -41,14 +40,6 @@ export const Login = () => {
     event.preventDefault();
     sendToService({ type: FormEvent.Validate });
   };
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      setTimeout(() => {
-        history.push('/home');
-      }, 500);
-    }
-  }, [isLoggedIn]);
 
   return (
     <Container component="main" maxWidth="xs">

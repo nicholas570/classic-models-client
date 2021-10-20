@@ -1,6 +1,10 @@
 import { FormStates } from '../../../domain/form/definition/FormSchema';
 import { LoginState } from '../../../domain/login/machine/LoginMachine';
 
+/**
+ * functions which restrict which parts
+ * of the state can result in components re-rendering.
+ */
 export const loginErrorSelector = (state: LoginState) => state.context.errors?.login;
 export const passwordErrorSelector = (state: LoginState) => state.context.errors?.password;
 

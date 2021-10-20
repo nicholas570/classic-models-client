@@ -1,6 +1,6 @@
 import { get, isEmpty } from 'lodash';
-import { assign, DoneEventObject } from 'xstate';
-import { FormEvents, FormUpdateEvent } from '../../form/definition/FormEvents';
+import { assign, DoneEventObject, sendParent } from 'xstate';
+import { FormEvent, FormEvents, FormUpdateEvent } from '../../form/definition/FormEvents';
 import { FormMachineOptions } from '../../form/machine/FormMachineOptions';
 import { LoginContext, LoginErrors } from '../definition/LoginContext';
 
@@ -10,7 +10,7 @@ export const LoginOptions: FormMachineOptions<LoginContext> = {
   guards: {
     isFormComplete: isComplete,
     isFormIncomplete: (context: LoginContext) => !isComplete(context),
-    isFormValidated: (context: LoginContext, event: DoneEventObject) => event.data === true,
+    isFormValidated: (context: LoginContext, event: DoneEventObject) => event.data === '123',
     shouldBlock: (context: LoginContext, event: DoneEventObject) => false
   },
   services: {
@@ -19,7 +19,8 @@ export const LoginOptions: FormMachineOptions<LoginContext> = {
       const serverError = false;
       if (serverError) return Promise.reject();
       const success = context.login === 'mylogin' && context.password === 'mypassword';
-      return Promise.resolve(success);
+      const token = '123';
+      return Promise.resolve(success ? token : false);
     }
   },
   actions: {
@@ -49,7 +50,9 @@ export const LoginOptions: FormMachineOptions<LoginContext> = {
       };
     }),
     onBlock: assign((context: LoginContext, event: FormEvents) => context),
-    onValidated: assign((context: LoginContext, event: FormEvents) => context),
+    onValidated: sendParent((context, event: DoneEventObject) => {
+      return { type: FormEvent.Validate, data: event.data };
+    }),
     onFormError: assign({
       errors: (context) => {
         return { invalidCredentials: 'Invalid credentials' };

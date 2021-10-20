@@ -1,16 +1,18 @@
 import { Machine, State } from 'xstate';
+import { AuthContext } from '../definition/AuthContext';
 import { AuthEvent } from '../definition/AuthEvents';
-import { AuthSchema } from '../definition/AuthSchema';
+import { AuthSchema, AuthStates } from '../definition/AuthSchema';
 import { AuthMachineConfig } from './AuthMachineConfig';
+import { AuthMachineOptions } from './AuthMachineOptions';
 
 export type AuthState = State<
-  void,
+  AuthContext,
   AuthEvent,
-  any,
+  AuthSchema,
   {
-    value: any;
-    context: void;
+    value: AuthStates;
+    context: AuthContext;
   }
 >;
 
-export const AuthMachine = Machine<void, AuthSchema, AuthEvent>(AuthMachineConfig);
+export const AuthMachine = Machine<AuthContext, AuthSchema, AuthEvent>(AuthMachineConfig, AuthMachineOptions);

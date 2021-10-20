@@ -28,8 +28,8 @@ export const FormMachineConfig: MachineConfig<any, FormSchema, FormEvents> = {
       }
     },
     [FormStates.InvalidForm]: {
-      entry: ['updateIncomplete'],
-      exit: ['updateIncomplete'],
+      entry: 'updateIncomplete',
+      exit: 'updateIncomplete',
       always: {
         target: FormStates.EditingComplete,
         cond: 'isFormComplete'
