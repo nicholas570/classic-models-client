@@ -1,6 +1,6 @@
 import { State } from 'xstate';
-import { FormEvents } from '../../form/definition/FormEvents';
-import { CreateFormMachine } from '../../form/machine/CreateFormMachine';
+import { FormEvents } from '../../../form/definition/FormEvents';
+import { CreateFormMachine } from '../../../form/machine/CreateFormMachine';
 import { RegisterContext } from '../definition/RegisterContext';
 import { RegisterOptions } from './RegisterMachineOptions';
 

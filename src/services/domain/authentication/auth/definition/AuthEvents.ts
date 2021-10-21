@@ -1,4 +1,4 @@
-import { FormValidateEvent } from '../../form/definition/FormEvents';
+import { FormValidateEvent } from '../../../form/definition/FormEvents';
 
 export enum AuthEvents {
   Register = 'register',

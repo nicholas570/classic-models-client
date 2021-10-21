@@ -1,7 +1,7 @@
 import { get, isEmpty } from 'lodash';
 import { assign, DoneEventObject, sendParent } from 'xstate';
-import { FormEvent, FormEvents, FormUpdateEvent } from '../../form/definition/FormEvents';
-import { FormMachineOptions } from '../../form/machine/FormMachineOptions';
+import { FormEvent, FormEvents, FormUpdateEvent } from '../../../form/definition/FormEvents';
+import { FormMachineOptions } from '../../../form/machine/FormMachineOptions';
 import { LoginContext, LoginErrors } from '../definition/LoginContext';
 
 const isComplete = (context: LoginContext): boolean => !isEmpty(context.login) && !!(context.password && context.password.length >= 6);

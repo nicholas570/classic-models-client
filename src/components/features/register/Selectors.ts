@@ -1,5 +1,5 @@
-import { FormStates } from '../../../domain/form/definition/FormSchema';
-import { RegisterState } from '../../../domain/register/machine/RegisterMachine';
+import { FormStates } from '../../../services/domain/form/definition/FormSchema';
+import { RegisterState } from '../../../services/domain/authentication/register/machine/RegisterMachine';
 
 export const firstNameErrorSelector = (state: RegisterState) => state.context.errors?.firstName;
 export const lastNameErrorSelector = (state: RegisterState) => state.context.errors?.lastName;

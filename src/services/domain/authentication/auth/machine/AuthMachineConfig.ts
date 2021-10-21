@@ -1,5 +1,5 @@
 import { MachineConfig } from 'xstate';
-import { FormEvent } from '../../form/definition/FormEvents';
+import { FormEvent } from '../../../form/definition/FormEvents';
 import { AuthContext } from '../definition/AuthContext';
 import { AuthEvent, AuthEvents } from '../definition/AuthEvents';
 import { AuthSchema, AuthStates } from '../definition/AuthSchema';

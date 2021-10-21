@@ -1,7 +1,7 @@
 import { get, isEmpty, every } from 'lodash';
 import { assign, DoneEventObject, sendParent } from 'xstate';
-import { FormEvent, FormEvents, FormUpdateEvent } from '../../form/definition/FormEvents';
-import { FormMachineOptions } from '../../form/machine/FormMachineOptions';
+import { FormEvent, FormEvents, FormUpdateEvent } from '../../../form/definition/FormEvents';
+import { FormMachineOptions } from '../../../form/machine/FormMachineOptions';
 import { RegisterContext, RegisterErrors } from '../definition/RegisterContext';
 
 const isComplete = (context: RegisterContext): boolean => {

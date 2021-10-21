@@ -1,5 +1,5 @@
-import { FormStates } from '../../../domain/form/definition/FormSchema';
-import { LoginState } from '../../../domain/login/machine/LoginMachine';
+import { FormStates } from '../../../services/domain/form/definition/FormSchema';
+import { LoginState } from '../../../services/domain/authentication/login/machine/LoginMachine';
 
 /**
  * functions which restrict which parts

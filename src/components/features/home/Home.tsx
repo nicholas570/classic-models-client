@@ -1,7 +1,7 @@
 import { useActor } from '@xstate/react';
 import React, { useContext, useEffect, useState } from 'react';
-import { getUser } from '../../../domain/api/getUser';
-import { ApiClient } from '../../../domain/api/utils/apiClient';
+import { getUser } from '../../../services/api/getUser';
+import { ApiClient } from '../../../services/api/utils/apiClient';
 import { AuthenticationContext } from '../../contexts/authentication/AuthenticationProvider';
 
 export const Home = () => {

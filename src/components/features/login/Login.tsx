@@ -5,7 +5,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Copyright } from '../copyright/Copyright';
 import { AuthenticationContext } from '../../contexts/authentication/AuthenticationProvider';
-import { FormEvent } from '../../../domain/form/definition/FormEvents';
+import { FormEvent } from '../../../services/domain/form/definition/FormEvents';
 import {
   isInvalidCredentialsSelector,
   loginErrorSelector,
@@ -15,7 +15,7 @@ import {
   isLoadingSelector,
   isLoggedInSelector
 } from './Selectors';
-import { AuthEvents } from '../../../domain/auth/definition/AuthEvents';
+import { AuthEvents } from '../../../services/domain/authentication/auth/definition/AuthEvents';
 
 export const Login = () => {
   const { authService } = useContext(AuthenticationContext);
