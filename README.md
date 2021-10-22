@@ -74,3 +74,10 @@ Also works with Yarn
 Needed to enable hot reloading with CRA 4+ <br/>
 
 FAST_REFRESH=false
+
+### Todos
+
+- [x] Forgot password form
+- [ ] Forgot form machine
+- [ ] Global browse machine
+- [ ] auth server?
