@@ -148,7 +148,7 @@ export const Register = () => {
           >
             {isRegistered ? 'Sign in' : 'Sign up'}
           </LoadingButton>
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent="center">
             <Grid item>
               <Link component="button" variant="body2" underline="hover" onClick={() => sendToAuthService({ type: AuthEvents.SignIn })}>
                 Already have an account? Sign in

@@ -2,6 +2,7 @@ import { useSelector } from '@xstate/react';
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { AuthenticationContext } from '../../contexts/authentication/AuthenticationProvider';
+import { Forgot } from '../forgot/Forgot';
 import { Login } from '../login/Login';
 import { Register } from '../register/Register';
 import { forgotSelector, isAuthenticatedSelector, loginSelector, registerSelector } from './Selectors';
@@ -23,5 +24,5 @@ export default function Auth() {
     }
   }, [isAuthenticated]);
 
-  return login ? <Login /> : register ? <Register /> : forgot ? <div>Forgot form</div> : null;
+  return login ? <Login /> : register ? <Register /> : forgot ? <Forgot /> : null;
 }

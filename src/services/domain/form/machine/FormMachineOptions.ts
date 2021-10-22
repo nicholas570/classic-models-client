@@ -1,4 +1,4 @@
-import { ActivityConfig, AssignAction, DelayFunctionMap, DoneEventObject, MachineOptions, SendAction } from 'xstate';
+import { ActivityConfig, AssignAction, DelayFunctionMap, DoneEventObject, DoneInvokeEvent, MachineOptions, SendAction } from 'xstate';
 import { FormEvents } from '../definition/FormEvents';
 
 export interface FormMachineOptions<T> extends MachineOptions<T, FormEvents> {
@@ -16,7 +16,7 @@ export interface FormMachineOptions<T> extends MachineOptions<T, FormEvents> {
     onUpdate: AssignAction<T, FormEvents>;
     onBlock: AssignAction<T, FormEvents>;
     onFormError: AssignAction<T, FormEvents>;
-    onValidated: any;
+    onValidated: SendAction<T, any, any> | AssignAction<T, FormEvents>;
   };
   activities: Record<string, ActivityConfig<T, FormEvents>>;
   delays: DelayFunctionMap<T, FormEvents>;
