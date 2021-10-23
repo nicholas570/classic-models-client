@@ -6,7 +6,7 @@ import { LoginContext, LoginErrors } from '../definition/LoginContext';
 
 const isComplete = (context: LoginContext): boolean => !isEmpty(context.login) && !!(context.password && context.password.length >= 6);
 
-export const LoginOptions: FormMachineOptions<LoginContext> = {
+export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
   guards: {
     isFormComplete: isComplete,
     isFormIncomplete: (context: LoginContext) => !isComplete(context),

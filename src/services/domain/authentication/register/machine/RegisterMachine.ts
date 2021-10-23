@@ -2,7 +2,7 @@ import { State } from 'xstate';
 import { FormEvents } from '../../../form/definition/FormEvents';
 import { CreateFormMachine } from '../../../form/machine/CreateFormMachine';
 import { RegisterContext } from '../definition/RegisterContext';
-import { RegisterOptions } from './RegisterMachineOptions';
+import { RegisterMachineOptions } from './RegisterMachineOptions';
 
 export type RegisterState = State<
   RegisterContext,
@@ -14,4 +14,4 @@ export type RegisterState = State<
   }
 >;
 
-export const RegisterMachine = CreateFormMachine<RegisterContext>(RegisterOptions);
+export const RegisterMachine = CreateFormMachine<RegisterContext>(RegisterMachineOptions);
