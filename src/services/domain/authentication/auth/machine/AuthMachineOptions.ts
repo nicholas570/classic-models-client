@@ -1,6 +1,7 @@
 import { assign, DoneEventObject, MachineOptions, spawn } from 'xstate';
 import { getUser } from '../../../../api/getUser';
 import { FormValidateEvent } from '../../../form/definition/FormEvents';
+import { ForgotMachine } from '../../forgot/machine/ForgotMachine';
 import { LoginMachine } from '../../login/machine/LoginMachine';
 import { RegisterMachine } from '../../register/machine/RegisterMachine';
 import { AuthContext } from '../definition/AuthContext';
@@ -31,6 +32,16 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
             errors: undefined
           }),
           'RegisterService'
+        )
+    }),
+    assignForgotRef: assign({
+      registerRef: (context) =>
+        spawn(
+          ForgotMachine.withContext({
+            email: undefined,
+            errors: undefined
+          }),
+          'ForgotService'
         )
     }),
     assignToken: assign({

@@ -15,4 +15,4 @@ export type ForgotState = State<
   }
 >;
 
-export const LoginMachine = CreateFormMachine<ForgotContext>(ForgotMachineOptions);
+export const ForgotMachine = CreateFormMachine<ForgotContext>(ForgotMachineOptions);
