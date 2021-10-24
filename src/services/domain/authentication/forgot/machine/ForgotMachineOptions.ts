@@ -18,9 +18,8 @@ export const ForgotMachineOptions: FormMachineOptions<ForgotContext> = {
       await new Promise((res) => setTimeout(res, 1000));
       const serverError = false;
       if (serverError) return Promise.reject();
-      const success = true;
-      const token = '123';
-      return Promise.resolve(success ? token : false);
+      const success = context.email === 'email';
+      return Promise.resolve(success);
     }
   },
   actions: {
