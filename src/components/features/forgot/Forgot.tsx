@@ -1,12 +1,22 @@
-import React, { SyntheticEvent, useContext } from 'react';
-import { Container, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Grid, Link, CircularProgress } from '@mui/material';
+import React, { ChangeEvent, SyntheticEvent, useContext } from 'react';
+import { useActor } from '@xstate/react';
+import { Container, Box, Avatar, Typography, TextField, Grid, Link, CircularProgress } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Copyright } from '../copyright/Copyright';
 import { AuthenticationContext } from '../../contexts/authentication/AuthenticationProvider';
+import { FormEvent } from '../../../services/domain/form/definition/FormEvents';
 
 export const Forgot = () => {
   const { authService } = useContext(AuthenticationContext);
+
+  const [authState, sendToAuthService] = useActor(authService);
+  const forgotService = authState.context.registerRef;
+  const [state, sendToService] = useActor(forgotService);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    sendToService({ type: FormEvent.UpdateForm, formData: { [event.target.name]: event.target.value } });
+  };
   const isInvalid = false;
 
   return (
@@ -38,7 +48,7 @@ export const Forgot = () => {
             label="Email Address"
             name="login"
             autoFocus
-            onChange={(event) => {}}
+            onChange={(event) => handleChange(event)}
           />
           <LoadingButton
             fullWidth
