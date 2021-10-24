@@ -10,7 +10,7 @@ export const ForgotMachineOptions: FormMachineOptions<ForgotContext> = {
   guards: {
     isFormComplete: isComplete,
     isFormIncomplete: (context: ForgotContext) => !isComplete(context),
-    isFormValidated: (context: ForgotContext, event: DoneEventObject) => event.data === 'email',
+    isFormValidated: (context: ForgotContext, event: DoneEventObject) => event.data === true,
     shouldBlock: (context: ForgotContext, event: DoneEventObject) => false
   },
   services: {
