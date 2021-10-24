@@ -1,5 +1,4 @@
-import { assign, DoneEventObject, MachineOptions, spawn } from 'xstate';
-import { getUser } from '../../../../api/getUser';
+import { assign, MachineOptions, spawn } from 'xstate';
 import { FormValidateEvent } from '../../../form/definition/FormEvents';
 import { ForgotMachine } from '../../forgot/machine/ForgotMachine';
 import { LoginMachine } from '../../login/machine/LoginMachine';

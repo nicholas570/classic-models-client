@@ -1,8 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { inspect } from '@xstate/inspect';
 import './index.css';
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
+
+inspect({
+  url: 'https://statecharts.io/inspect',
+  iframe: false
+});
 
 ReactDOM.render(
   <React.StrictMode>

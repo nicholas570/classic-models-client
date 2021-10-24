@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
 import { useInterpret } from '@xstate/react';
-import { ActorRefFrom } from 'xstate';
+import { ActorRefFrom, interpret } from 'xstate';
 import { AuthMachine } from '../../../services/domain/authentication/auth/machine/AuthMachine';
 
 interface AuthenticationContextType {
@@ -20,7 +20,7 @@ export const AuthenticationProvider = ({ children }: AuthenticationProviderProps
    * that change as little as possible.
    * These service should be subscribed in consumers
    */
-  const authService = useInterpret(AuthMachine);
+  const authService = useInterpret(AuthMachine, { devTools: true });
 
   authService.onTransition((listener) => console.debug(`Auth service: ${listener.value}`));
 
