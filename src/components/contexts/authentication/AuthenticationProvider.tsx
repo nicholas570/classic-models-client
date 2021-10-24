@@ -20,7 +20,7 @@ export const AuthenticationProvider = ({ children }: AuthenticationProviderProps
    * that change as little as possible.
    * These service should be subscribed in consumers
    */
-  const authService = useInterpret(AuthMachine);
+  const authService = useInterpret(AuthMachine, { devTools: true });
 
   authService.onTransition((listener) => console.debug(`Auth service: ${listener.value}`));
 
