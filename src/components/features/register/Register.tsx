@@ -45,6 +45,8 @@ export const Register = () => {
     sendToService({ type: FormEvent.Validate });
   };
 
+  const onError = (event: any) => event.preventDefault();
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
