@@ -8,7 +8,7 @@ import { AuthenticationContext } from '../../contexts/authentication/Authenticat
 import { FormEvent } from '../../../services/domain/form/definition/FormEvents';
 import {
   isInvalidCredentialsSelector,
-  loginErrorSelector,
+  emailErrorSelector,
   passwordErrorSelector,
   isValidationDisabledSelector,
   invalidCredentialsSelector,
@@ -24,7 +24,7 @@ export const Login = () => {
   const loginService = authState.context.loginRef;
   const [state, sendToService] = useActor(authState.context.loginRef);
 
-  const loginErrorMessage = useSelector(loginService, loginErrorSelector);
+  const loginErrorMessage = useSelector(loginService, emailErrorSelector);
   const passwordErrorMessage = useSelector(loginService, passwordErrorSelector);
   const isDisabled = useSelector(loginService, isValidationDisabledSelector);
   const isLoading = useSelector(loginService, isLoadingSelector);
@@ -65,7 +65,7 @@ export const Login = () => {
             fullWidth
             id="email"
             label="Email Address"
-            name="login"
+            name="email"
             autoFocus
             onChange={(event) => handleChange(event)}
             helperText={loginErrorMessage}

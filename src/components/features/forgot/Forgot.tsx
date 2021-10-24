@@ -46,7 +46,7 @@ export const Forgot = () => {
             fullWidth
             id="email"
             label="Email Address"
-            name="login"
+            name="email"
             autoFocus
             onChange={(event) => handleChange(event)}
           />

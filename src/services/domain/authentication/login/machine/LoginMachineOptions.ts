@@ -4,7 +4,7 @@ import { FormEvent, FormEvents, FormUpdateEvent } from '../../../form/definition
 import { FormMachineOptions } from '../../../form/machine/FormMachineOptions';
 import { LoginContext, LoginErrors } from '../definition/LoginContext';
 
-const isComplete = (context: LoginContext): boolean => !isEmpty(context.login) && !!(context.password && context.password.length >= 6);
+const isComplete = (context: LoginContext): boolean => !isEmpty(context.email) && !!(context.password && context.password.length >= 6);
 
 export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
   guards: {
@@ -18,7 +18,7 @@ export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
       await new Promise((res) => setTimeout(res, 1000));
       const serverError = false;
       if (serverError) return Promise.reject();
-      const success = context.login === 'mylogin' && context.password === 'mypassword';
+      const success = context.email === 'mylogin' && context.password === 'mypassword';
       const token = '123';
       return Promise.resolve(success ? token : false);
     }
@@ -33,11 +33,11 @@ export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
       };
     }),
     updateIncomplete: assign((context: LoginContext, event: FormEvents) => {
-      const login = get(event, 'formData.login', context.login);
+      const email = get(event, 'formData.login', context.email);
       const password = get(event, 'formData.password', context.password);
       const errors: LoginErrors = {};
-      if (isEmpty(login)) {
-        errors.login = 'Fill-in your login';
+      if (isEmpty(email)) {
+        errors.email = 'Fill-in your email';
       }
       if (isEmpty(password)) {
         errors.password = 'Fill-in your Password';

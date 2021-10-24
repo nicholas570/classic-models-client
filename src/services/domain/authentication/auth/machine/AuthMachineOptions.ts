@@ -14,7 +14,7 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
       loginRef: (context) =>
         spawn(
           LoginMachine.withContext({
-            login: undefined,
+            email: undefined,
             password: undefined,
             errors: undefined
           }),

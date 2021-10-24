@@ -1,7 +1,7 @@
-export type LoginErrors = { login?: string; password?: string; invalidCredentials?: string };
+export type LoginErrors = { email?: string; password?: string; invalidCredentials?: string };
 
 export type LoginContext = {
-  login?: string;
+  email?: string;
   password?: string;
   errors?: LoginErrors;
 };
