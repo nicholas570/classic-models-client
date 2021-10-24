@@ -13,7 +13,7 @@ const isComplete = (context: RegisterContext): boolean => {
   );
 };
 
-export const RegisterOptions: FormMachineOptions<RegisterContext> = {
+export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
   guards: {
     isFormComplete: (context: RegisterContext) => isComplete(context),
     isFormIncomplete: (context: RegisterContext) => !isComplete(context),

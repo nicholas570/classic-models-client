@@ -1,13 +1,41 @@
-import React, { SyntheticEvent, useContext } from 'react';
-import { Container, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Grid, Link, CircularProgress } from '@mui/material';
+import React, { ChangeEvent, SyntheticEvent, useContext } from 'react';
+import { useActor, useSelector } from '@xstate/react';
+import { Container, Box, Avatar, Typography, TextField, Grid, Link, CircularProgress } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Copyright } from '../copyright/Copyright';
 import { AuthenticationContext } from '../../contexts/authentication/AuthenticationProvider';
+import { FormEvent } from '../../../services/domain/form/definition/FormEvents';
+import {
+  emailErrorSelector,
+  invalidCredentialsSelector,
+  isInvalidCredentialsSelector,
+  isLoadingSelector,
+  isValidationDisabledSelector
+} from './Selectors';
+import { AuthEvents } from '../../../services/domain/authentication/auth/definition/AuthEvents';
 
 export const Forgot = () => {
   const { authService } = useContext(AuthenticationContext);
-  const isInvalid = false;
+
+  const [authState, sendToAuthService] = useActor(authService);
+  const forgotService = authState.context.registerRef;
+  const [state, sendToService] = useActor(forgotService);
+
+  const isDisabled = useSelector(forgotService, isValidationDisabledSelector);
+  const isInvalid = useSelector(forgotService, isInvalidCredentialsSelector);
+  const isLoading = useSelector(forgotService, isLoadingSelector);
+  const invalidCredentialsMessage = useSelector(forgotService, invalidCredentialsSelector);
+  const emailErrorMessage = useSelector(forgotService, emailErrorSelector);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    sendToService({ type: FormEvent.UpdateForm, formData: { [event.target.name]: event.target.value } });
+  };
+
+  const onSubmit = (event: SyntheticEvent) => {
+    event.preventDefault();
+    sendToService({ type: FormEvent.Validate });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -26,9 +54,9 @@ export const Forgot = () => {
           Forgot your password?
         </Typography>
         <Typography variant="subtitle1" sx={{ fontWeight: 'light' }}>
-          Please enter your email
+          Please enter your email and we'll send you a link
         </Typography>
-        <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={(event: SyntheticEvent) => {}}>
+        <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={(event: SyntheticEvent) => onSubmit(event)}>
           <TextField
             inputProps={{ autoComplete: 'off' }}
             margin="normal"
@@ -36,29 +64,31 @@ export const Forgot = () => {
             fullWidth
             id="email"
             label="Email Address"
-            name="login"
+            name="email"
             autoFocus
-            onChange={(event) => {}}
+            helperText={emailErrorMessage}
+            error={!!emailErrorMessage}
+            onChange={(event) => handleChange(event)}
           />
           <LoadingButton
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            disabled={false}
+            disabled={isDisabled}
             type="submit"
-            loading={false}
+            loading={isLoading}
             loadingIndicator={<CircularProgress color="inherit" size={16} />}
           >
-            Continue
+            Reset your password
           </LoadingButton>
           {isInvalid && (
             <Typography align="center" variant="body1" sx={{ color: 'error.main' }}>
-              Invalid email
+              {invalidCredentialsMessage}
             </Typography>
           )}
           <Grid container justifyContent="center">
             <Grid item>
-              <Link component="button" variant="body2" underline="hover" onClick={() => {}}>
+              <Link component="button" variant="body2" underline="hover" onClick={() => sendToAuthService({ type: AuthEvents.SignIn })}>
                 Already have an account? Sign in
               </Link>
             </Grid>

@@ -2,17 +2,17 @@ import { State } from 'xstate';
 import { FormEvents } from '../../../form/definition/FormEvents';
 import { FormSchema } from '../../../form/definition/FormSchema';
 import { CreateFormMachine } from '../../../form/machine/CreateFormMachine';
-import { LoginContext } from '../definition/LoginContext';
-import { LoginMachineOptions } from './LoginMachineOptions';
+import { ForgotContext } from '../definition/ForgotContext';
+import { ForgotMachineOptions } from './ForgotMachineOptions';
 
-export type LoginState = State<
-  LoginContext,
+export type ForgotState = State<
+  ForgotContext,
   FormEvents,
   FormSchema,
   {
     value: any;
-    context: LoginContext;
+    context: ForgotContext;
   }
 >;
 
-export const LoginMachine = CreateFormMachine<LoginContext>(LoginMachineOptions);
+export const ForgotMachine = CreateFormMachine<ForgotContext>(ForgotMachineOptions);

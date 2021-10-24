@@ -5,7 +5,7 @@ import { LoginState } from '../../../services/domain/authentication/login/machin
  * functions which restrict which parts
  * of the state can result in components re-rendering.
  */
-export const loginErrorSelector = (state: LoginState) => state.context.errors?.login;
+export const emailErrorSelector = (state: LoginState) => state.context.errors?.email;
 export const passwordErrorSelector = (state: LoginState) => state.context.errors?.password;
 
 export const isValidationDisabledSelector = (state: LoginState) =>

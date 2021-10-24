@@ -1,6 +1,10 @@
 import { FormStates } from '../../../services/domain/form/definition/FormSchema';
 import { RegisterState } from '../../../services/domain/authentication/register/machine/RegisterMachine';
 
+/**
+ * functions which restrict which parts
+ * of the state can result in components re-rendering.
+ */
 export const firstNameErrorSelector = (state: RegisterState) => state.context.errors?.firstName;
 export const lastNameErrorSelector = (state: RegisterState) => state.context.errors?.lastName;
 export const emailErrorSelector = (state: RegisterState) => state.context.errors?.email;
