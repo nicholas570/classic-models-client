@@ -29,7 +29,7 @@ describe('transition to sign in state', () => {
     const expectedValue = AuthStates.SignIn;
     const actualState = AuthMachine.transition(AuthStates.Forgot, { type: AuthEvents.SignIn });
 
-    expect(actualState.matches(expectedValue)).toBeTruthy();
+    expect(actualState.matches(expectedValue)).not.toBeTruthy();
   });
   it('should go to sign in from forgot', () => {
     const expectedValue = AuthStates.SignIn;
