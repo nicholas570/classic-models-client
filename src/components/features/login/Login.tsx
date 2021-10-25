@@ -21,8 +21,8 @@ export const Login = () => {
   const { authService } = useContext(AuthenticationContext);
 
   const [authState, sendToAuthService] = useActor(authService);
-  const loginService = authState.context.loginRef;
-  const [state, sendToService] = useActor(authState.context.loginRef);
+  const loginService = authState.context.loginRef!;
+  const [state, sendToService] = useActor(loginService);
 
   const loginErrorMessage = useSelector(loginService, emailErrorSelector);
   const passwordErrorMessage = useSelector(loginService, passwordErrorSelector);

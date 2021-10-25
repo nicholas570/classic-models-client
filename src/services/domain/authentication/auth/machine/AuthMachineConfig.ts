@@ -10,7 +10,6 @@ export const AuthMachineConfig: MachineConfig<AuthContext, AuthSchema, AuthEvent
   states: {
     [AuthStates.SignIn]: {
       entry: 'assignLoginRef',
-      exit: 'clearLoginRef',
       on: {
         [AuthEvents.Register]: {
           target: AuthStates.Register
@@ -26,7 +25,6 @@ export const AuthMachineConfig: MachineConfig<AuthContext, AuthSchema, AuthEvent
     },
     [AuthStates.Register]: {
       entry: 'assignRegisterRef',
-      exit: 'clearRegisterRef',
       on: {
         [AuthEvents.SignIn]: AuthStates.SignIn,
         [FormEvent.Validate]: AuthStates.SignIn
@@ -34,7 +32,6 @@ export const AuthMachineConfig: MachineConfig<AuthContext, AuthSchema, AuthEvent
     },
     [AuthStates.Forgot]: {
       entry: 'assignForgotRef',
-      exit: 'clearForgotRef',
       on: {
         [AuthEvents.SignIn]: AuthStates.SignIn,
         [FormEvent.Validate]: AuthStates.SignIn

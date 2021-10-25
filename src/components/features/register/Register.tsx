@@ -23,7 +23,7 @@ export const Register = () => {
   const { authService } = useContext(AuthenticationContext);
 
   const [authState, sendToAuthService] = useActor(authService);
-  const registerService = authState.context.registerRef;
+  const registerService = authState.context.registerRef!;
   const [state, sendToService] = useActor(registerService);
 
   const firstNameErrorMessage = useSelector(registerService, firstNameErrorSelector);

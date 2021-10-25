@@ -19,7 +19,7 @@ export const Forgot = () => {
   const { authService } = useContext(AuthenticationContext);
 
   const [authState, sendToAuthService] = useActor(authService);
-  const forgotService = authState.context.forgotRef;
+  const forgotService = authState.context.forgotRef!;
   const [state, sendToService] = useActor(forgotService);
 
   const isDisabled = useSelector(forgotService, isValidationDisabledSelector);
