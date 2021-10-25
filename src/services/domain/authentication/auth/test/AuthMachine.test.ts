@@ -5,7 +5,7 @@ import { AuthStates } from '../definition/AuthSchema';
 import { AuthMachine } from '../machine/AuthMachine';
 
 it('should be in editing on initial state', () => {
-  const expectedValue = AuthStates.SignIn;
+  const expectedValue = AuthStates.Login;
   const actualState = AuthMachine.initialState;
 
   expect(actualState.matches(expectedValue)).toBeTruthy();
@@ -13,13 +13,13 @@ it('should be in editing on initial state', () => {
 
 describe('transition to sign in state', () => {
   it('should go to sign in from register', () => {
-    const expectedValue = AuthStates.SignIn;
+    const expectedValue = AuthStates.Login;
     const actualState = AuthMachine.transition(AuthStates.Forgot, { type: AuthEvents.SignIn });
 
     expect(actualState.matches(expectedValue)).toBeTruthy();
   });
   it('should go to sign in from forgot', () => {
-    const expectedValue = AuthStates.SignIn;
+    const expectedValue = AuthStates.Login;
     const actualState = AuthMachine.transition(AuthStates.Register, { type: AuthEvents.SignIn });
 
     expect(actualState.matches(expectedValue)).toBeTruthy();
@@ -29,7 +29,7 @@ describe('transition to sign in state', () => {
 describe('transition to forgot state', () => {
   it('should go to forgot from sign in', () => {
     const expectedValue = AuthStates.Forgot;
-    const actualState = AuthMachine.transition(AuthStates.SignIn, { type: AuthEvents.Forgot });
+    const actualState = AuthMachine.transition(AuthStates.Login, { type: AuthEvents.Forgot });
 
     expect(actualState.matches(expectedValue)).toBeTruthy();
   });
@@ -44,12 +44,12 @@ describe('transition to forgot state', () => {
 describe('transition to register state', () => {
   it('should go to register in from sign in', () => {
     const expectedValue = AuthStates.Register;
-    const actualState = AuthMachine.transition(AuthStates.SignIn, { type: AuthEvents.Register });
+    const actualState = AuthMachine.transition(AuthStates.Login, { type: AuthEvents.Register });
 
     expect(actualState.matches(expectedValue)).toBeTruthy();
   });
   it('should not go to register from forgot', () => {
-    const expectedValue = AuthStates.SignIn;
+    const expectedValue = AuthStates.Login;
     const actualState = AuthMachine.transition(AuthStates.Forgot, { type: AuthEvents.Register });
 
     expect(actualState.matches(expectedValue)).not.toBeTruthy();
@@ -61,7 +61,7 @@ describe('auth service actions', () => {
     const authService = interpret(
       AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined })
     ).onTransition((state) => {
-      if (state.matches(AuthStates.SignIn)) {
+      if (state.matches(AuthStates.Login)) {
         expect(state.context.loginRef).not.toBeUndefined();
         expect(state.context.registerRef).toBeUndefined();
         expect(state.context.forgotRef).toBeUndefined();
@@ -77,21 +77,6 @@ describe('auth service actions', () => {
     ).onTransition((state) => {
       if (state.matches(AuthStates.Register)) {
         expect(state.context.registerRef).not.toBeUndefined();
-        expect(state.context.loginRef).toBeUndefined();
-        expect(state.context.forgotRef).toBeUndefined();
-        done();
-      }
-    });
-
-    authService.start();
-    authService.send({ type: AuthEvents.Register });
-  });
-  it('should clear the register machine ref on exiting register', (done) => {
-    const authService = interpret(
-      AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined })
-    ).onTransition((state) => {
-      if (state.matches(AuthStates.SignIn)) {
-        expect(state.context.registerRef).toBeUndefined();
         expect(state.context.loginRef).not.toBeUndefined();
         expect(state.context.forgotRef).toBeUndefined();
         done();
@@ -100,7 +85,6 @@ describe('auth service actions', () => {
 
     authService.start();
     authService.send({ type: AuthEvents.Register });
-    authService.send({ type: FormEvent.Validate });
   });
   it('should assign the forgot machine ref on entering forgot', (done) => {
     const authService = interpret(
@@ -109,21 +93,6 @@ describe('auth service actions', () => {
       if (state.matches(AuthStates.Forgot)) {
         expect(state.context.forgotRef).not.toBeUndefined();
         expect(state.context.registerRef).toBeUndefined();
-        expect(state.context.loginRef).toBeUndefined();
-        done();
-      }
-    });
-
-    authService.start();
-    authService.send({ type: AuthEvents.Forgot });
-  });
-  it('should clear the forgot machine ref on exiting forgot', (done) => {
-    const authService = interpret(
-      AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined })
-    ).onTransition((state) => {
-      if (state.matches(AuthStates.SignIn)) {
-        expect(state.context.forgotRef).toBeUndefined();
-        expect(state.context.registerRef).toBeUndefined();
         expect(state.context.loginRef).not.toBeUndefined();
         done();
       }
@@ -131,7 +100,6 @@ describe('auth service actions', () => {
 
     authService.start();
     authService.send({ type: AuthEvents.Forgot });
-    authService.send({ type: AuthEvents.SignIn });
   });
   it('should assign the auth token validate event', (done) => {
     const authService = interpret(

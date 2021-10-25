@@ -1,5 +1,6 @@
 import { State } from 'xstate';
 import { FormEvents } from '../../../form/definition/FormEvents';
+import { FormSchema, FormStates } from '../../../form/definition/FormSchema';
 import { CreateFormMachine } from '../../../form/machine/CreateFormMachine';
 import { RegisterContext } from '../definition/RegisterContext';
 import { RegisterMachineOptions } from './RegisterMachineOptions';
@@ -7,9 +8,9 @@ import { RegisterMachineOptions } from './RegisterMachineOptions';
 export type RegisterState = State<
   RegisterContext,
   FormEvents,
-  any,
+  FormSchema,
   {
-    value: any;
+    value: FormStates;
     context: RegisterContext;
   }
 >;

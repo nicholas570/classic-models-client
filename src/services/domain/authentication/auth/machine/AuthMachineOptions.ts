@@ -20,9 +20,6 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
           'LoginService'
         )
     }),
-    clearLoginRef: assign({
-      loginRef: (context) => undefined
-    }),
     assignRegisterRef: assign({
       registerRef: (context) =>
         spawn(
@@ -36,9 +33,6 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
           'RegisterService'
         )
     }),
-    clearRegisterRef: assign({
-      registerRef: (context) => undefined
-    }),
     assignForgotRef: assign({
       forgotRef: (context) =>
         spawn(
@@ -48,9 +42,6 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
           }),
           'ForgotService'
         )
-    }),
-    clearForgotRef: assign({
-      forgotRef: (context) => undefined
     }),
     assignToken: assign({
       token: (context, event) => {
