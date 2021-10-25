@@ -6,9 +6,9 @@ import { AuthSchema, AuthStates } from '../definition/AuthSchema';
 
 export const AuthMachineConfig: MachineConfig<AuthContext, AuthSchema, AuthEvent> = {
   id: 'auth',
-  initial: AuthStates.SignIn,
+  initial: AuthStates.Login,
   states: {
-    [AuthStates.SignIn]: {
+    [AuthStates.Login]: {
       entry: 'assignLoginRef',
       on: {
         [AuthEvents.Register]: {
@@ -26,15 +26,15 @@ export const AuthMachineConfig: MachineConfig<AuthContext, AuthSchema, AuthEvent
     [AuthStates.Register]: {
       entry: 'assignRegisterRef',
       on: {
-        [AuthEvents.SignIn]: AuthStates.SignIn,
-        [FormEvent.Validate]: AuthStates.SignIn
+        [AuthEvents.SignIn]: AuthStates.Login,
+        [FormEvent.Validate]: AuthStates.Login
       }
     },
     [AuthStates.Forgot]: {
       entry: 'assignForgotRef',
       on: {
-        [AuthEvents.SignIn]: AuthStates.SignIn,
-        [FormEvent.Validate]: AuthStates.SignIn
+        [AuthEvents.SignIn]: AuthStates.Login,
+        [FormEvent.Validate]: AuthStates.Login
       }
     },
     [AuthStates.Authenticated]: {
