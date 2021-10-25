@@ -32,7 +32,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage --runInBand --watchAll",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .ts --ext .tsx --fix",
     "precommit": "lint-staged"
@@ -54,6 +54,27 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts",
+      "!src/index.tsx",
+      "!src/serviceWorker.ts",
+      "!src/setupTests.ts"
+    ],
+    "coverageReporters": [
+      "html",
+      "text-summary"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 95,
+        "branches": 95,
+        "lines": 95,
+        "functions": 95
+      }
+    }
   },
   "devDependencies": {
     "@types/lodash": "^4.14.175",
