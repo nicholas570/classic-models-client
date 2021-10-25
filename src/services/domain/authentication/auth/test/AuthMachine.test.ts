@@ -77,21 +77,6 @@ describe('auth service actions', () => {
     ).onTransition((state) => {
       if (state.matches(AuthStates.Register)) {
         expect(state.context.registerRef).not.toBeUndefined();
-        expect(state.context.loginRef).toBeUndefined();
-        expect(state.context.forgotRef).toBeUndefined();
-        done();
-      }
-    });
-
-    authService.start();
-    authService.send({ type: AuthEvents.Register });
-  });
-  it('should clear the register machine ref on exiting register', (done) => {
-    const authService = interpret(
-      AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined })
-    ).onTransition((state) => {
-      if (state.matches(AuthStates.SignIn)) {
-        expect(state.context.registerRef).toBeUndefined();
         expect(state.context.loginRef).not.toBeUndefined();
         expect(state.context.forgotRef).toBeUndefined();
         done();
@@ -100,7 +85,6 @@ describe('auth service actions', () => {
 
     authService.start();
     authService.send({ type: AuthEvents.Register });
-    authService.send({ type: FormEvent.Validate });
   });
   it('should assign the forgot machine ref on entering forgot', (done) => {
     const authService = interpret(
@@ -109,21 +93,6 @@ describe('auth service actions', () => {
       if (state.matches(AuthStates.Forgot)) {
         expect(state.context.forgotRef).not.toBeUndefined();
         expect(state.context.registerRef).toBeUndefined();
-        expect(state.context.loginRef).toBeUndefined();
-        done();
-      }
-    });
-
-    authService.start();
-    authService.send({ type: AuthEvents.Forgot });
-  });
-  it('should clear the forgot machine ref on exiting forgot', (done) => {
-    const authService = interpret(
-      AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined })
-    ).onTransition((state) => {
-      if (state.matches(AuthStates.SignIn)) {
-        expect(state.context.forgotRef).toBeUndefined();
-        expect(state.context.registerRef).toBeUndefined();
         expect(state.context.loginRef).not.toBeUndefined();
         done();
       }
@@ -131,7 +100,6 @@ describe('auth service actions', () => {
 
     authService.start();
     authService.send({ type: AuthEvents.Forgot });
-    authService.send({ type: AuthEvents.SignIn });
   });
   it('should assign the auth token validate event', (done) => {
     const authService = interpret(
