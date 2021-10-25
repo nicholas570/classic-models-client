@@ -78,6 +78,7 @@ FAST_REFRESH=false
 ### Todos
 
 - [x] Forgot password form
-- [ ] Forgot form machine
+- [x] Forgot form machine
+- [ ] test
+- [ ] auth server
 - [ ] Global browse machine
-- [ ] auth server?
