@@ -1,6 +1,6 @@
 import { State } from 'xstate';
 import { FormEvents } from '../../../form/definition/FormEvents';
-import { FormSchema } from '../../../form/definition/FormSchema';
+import { FormSchema, FormStates } from '../../../form/definition/FormSchema';
 import { CreateFormMachine } from '../../../form/machine/CreateFormMachine';
 import { LoginContext } from '../definition/LoginContext';
 import { LoginMachineOptions } from './LoginMachineOptions';
@@ -10,7 +10,7 @@ export type LoginState = State<
   FormEvents,
   FormSchema,
   {
-    value: any;
+    value: FormStates;
     context: LoginContext;
   }
 >;
