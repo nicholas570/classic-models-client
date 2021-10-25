@@ -29,11 +29,26 @@ describe('transition to sign in state', () => {
     const expectedValue = AuthStates.SignIn;
     const actualState = AuthMachine.transition(AuthStates.Forgot, { type: AuthEvents.SignIn });
 
-    expect(actualState.matches(expectedValue)).not.toBeTruthy();
+    expect(actualState.matches(expectedValue)).toBeTruthy();
   });
   it('should go to sign in from forgot', () => {
     const expectedValue = AuthStates.SignIn;
     const actualState = AuthMachine.transition(AuthStates.Register, { type: AuthEvents.SignIn });
+
+    expect(actualState.matches(expectedValue)).toBeTruthy();
+  });
+});
+
+describe('transition to register state', () => {
+  it('should go to register in from sign in', () => {
+    const expectedValue = AuthStates.Register;
+    const actualState = AuthMachine.transition(AuthStates.SignIn, { type: AuthEvents.Register });
+
+    expect(actualState.matches(expectedValue)).toBeTruthy();
+  });
+  it('should not go to register from forgot', () => {
+    const expectedValue = AuthStates.SignIn;
+    const actualState = AuthMachine.transition(AuthStates.Forgot, { type: AuthEvents.Register });
 
     expect(actualState.matches(expectedValue)).not.toBeTruthy();
   });
