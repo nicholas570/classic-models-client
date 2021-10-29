@@ -43,9 +43,8 @@ export const FormMachineConfig: MachineConfig<any, FormSchema, FormEvents> = {
         src: 'submitAsync',
         onError: [
           {
-            target: FormStates.Blocked,
-            cond: 'shouldBlock',
-            actions: 'onBlock'
+            target: FormStates.ValidationFailed,
+            actions: 'onFormError'
           }
         ],
         onDone: [
@@ -53,10 +52,6 @@ export const FormMachineConfig: MachineConfig<any, FormSchema, FormEvents> = {
             target: FormStates.Validated,
             cond: 'isFormValidated',
             actions: 'onValidated'
-          },
-          {
-            target: FormStates.ValidationFailed,
-            actions: 'onFormError'
           }
         ]
       }

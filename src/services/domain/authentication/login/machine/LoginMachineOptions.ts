@@ -1,27 +1,30 @@
 import { get, isEmpty } from 'lodash';
 import { assign, DoneEventObject, sendParent } from 'xstate';
-import { getEmployees } from '../../../../api/getEmployees';
-import { FormEvent, FormEvents, FormUpdateEvent } from '../../../form/definition/FormEvents';
+import { Credentials } from '../../../../../models/auth/Credentials';
+import { login } from '../../../../api/login';
+import { FormErrorEvent, FormEvent, FormEvents, FormUpdateEvent } from '../../../form/definition/FormEvents';
 import { FormMachineOptions } from '../../../form/machine/FormMachineOptions';
 import { LoginContext, LoginErrors } from '../definition/LoginContext';
 
-const isComplete = (context: LoginContext): boolean => !isEmpty(context.email) && !!(context.password && context.password.length >= 6);
+const isComplete = (context: LoginContext): boolean => !isEmpty(context.email) && !!(context.password && context.password.length);
 
 export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
   guards: {
     isFormComplete: isComplete,
     isFormIncomplete: (context: LoginContext) => !isComplete(context),
-    isFormValidated: (context: LoginContext, event: DoneEventObject) => event.data === '123',
-    shouldBlock: (context: LoginContext, event: DoneEventObject) => false
+    isFormValidated: (context: LoginContext, event: DoneEventObject) => event.data.isAuthenticated === true,
+    shouldBlock: (context: LoginContext, event: DoneEventObject) => true
   },
   services: {
     submitAsync: async (context: LoginContext): Promise<any> => {
-      const employees = await getEmployees(context.apiClient);
-      const serverError = false;
-      if (serverError) return Promise.reject();
-      const success = context.email === 'mylogin' && context.password === 'mypassword';
-      const token = '123';
-      return Promise.resolve(success ? token : false);
+      // "email": "eManolo@classicmodelcars.com",
+      // "password": "pwd"
+      const credentials: Credentials = {
+        email: context.email!,
+        password: context.password!
+      };
+      const t = await login(context.apiClient, credentials);
+      return t;
     }
   },
   actions: {
@@ -52,11 +55,12 @@ export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
     }),
     onBlock: assign((context: LoginContext, event: FormEvents) => context),
     onValidated: sendParent((context, event: DoneEventObject) => {
-      return { type: FormEvent.Validate, data: event.data };
+      return { type: FormEvent.Validate, data: event.data.token };
     }),
     onFormError: assign({
-      errors: (context) => {
-        return { invalidCredentials: 'Invalid credentials' };
+      errors: (context, event) => {
+        const { data } = event as FormErrorEvent;
+        return { message: data.response.data.message };
       }
     })
   },
