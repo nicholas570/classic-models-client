@@ -1,4 +1,5 @@
 import { assign, MachineOptions, spawn } from 'xstate';
+import { createApiClient } from '../../../../api/utils/apiClient';
 import { FormValidateEvent } from '../../../form/definition/FormEvents';
 import { ForgotMachine } from '../../forgot/machine/ForgotMachine';
 import { LoginMachine } from '../../login/machine/LoginMachine';
@@ -13,7 +14,7 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
       loginRef: (context) =>
         spawn(
           LoginMachine.withContext({
-            apiClient: context.apiClient,
+            apiClient: createApiClient(),
             email: undefined,
             password: undefined,
             errors: undefined
@@ -25,7 +26,7 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
       registerRef: (context) =>
         spawn(
           RegisterMachine.withContext({
-            apiClient: context.apiClient,
+            apiClient: createApiClient(),
             firstName: undefined,
             lastName: undefined,
             password: undefined,
@@ -39,7 +40,7 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
       forgotRef: (context) =>
         spawn(
           ForgotMachine.withContext({
-            apiClient: context.apiClient,
+            apiClient: createApiClient(),
             email: undefined,
             errors: undefined
           }),
