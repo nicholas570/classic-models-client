@@ -1,5 +1,6 @@
 import { get, isEmpty } from 'lodash';
 import { assign, DoneEventObject, sendParent } from 'xstate';
+import { getEmployees } from '../../../../api/getEmployees';
 import { FormEvent, FormEvents, FormUpdateEvent } from '../../../form/definition/FormEvents';
 import { FormMachineOptions } from '../../../form/machine/FormMachineOptions';
 import { LoginContext, LoginErrors } from '../definition/LoginContext';
@@ -15,7 +16,7 @@ export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
   },
   services: {
     submitAsync: async (context: LoginContext): Promise<any> => {
-      await new Promise((res) => setTimeout(res, 1000));
+      const employees = await getEmployees(context.apiClient);
       const serverError = false;
       if (serverError) return Promise.reject();
       const success = context.email === 'mylogin' && context.password === 'mypassword';

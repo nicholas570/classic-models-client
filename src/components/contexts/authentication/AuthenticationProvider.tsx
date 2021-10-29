@@ -2,6 +2,7 @@ import React, { createContext } from 'react';
 import { useInterpret } from '@xstate/react';
 import { ActorRefFrom } from 'xstate';
 import { AuthMachine } from '../../../services/domain/authentication/auth/machine/AuthMachine';
+import { createApiClient } from '../../../services/api/utils/apiClient';
 
 interface AuthenticationContextType {
   authService: ActorRefFrom<typeof AuthMachine>;
@@ -20,7 +21,8 @@ export const AuthenticationProvider = ({ children }: AuthenticationProviderProps
    * that change as little as possible.
    * These service should be subscribed in consumers
    */
-  const authService = useInterpret(AuthMachine, { devTools: true });
+  const apiClient = createApiClient();
+  const authService = useInterpret(AuthMachine.withContext({ apiClient }), { devTools: true });
 
   authService.onTransition((listener) => console.debug(`Auth service: ${listener.value}`));
 

@@ -13,6 +13,7 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
       loginRef: (context) =>
         spawn(
           LoginMachine.withContext({
+            apiClient: context.apiClient,
             email: undefined,
             password: undefined,
             errors: undefined
@@ -24,6 +25,7 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
       registerRef: (context) =>
         spawn(
           RegisterMachine.withContext({
+            apiClient: context.apiClient,
             firstName: undefined,
             lastName: undefined,
             password: undefined,
@@ -37,6 +39,7 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
       forgotRef: (context) =>
         spawn(
           ForgotMachine.withContext({
+            apiClient: context.apiClient,
             email: undefined,
             errors: undefined
           }),
