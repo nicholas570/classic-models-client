@@ -17,7 +17,7 @@ export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
     shouldBlock: (context: LoginContext, event: DoneEventObject) => true
   },
   services: {
-    submitAsync: async (context: LoginContext): Promise<any> => {
+    submitAsync: async (context: LoginContext): Promise<AuthResponse> => {
       const credentials: Credentials = {
         email: context.email!,
         password: context.password!

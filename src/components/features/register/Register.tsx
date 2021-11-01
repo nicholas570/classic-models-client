@@ -1,6 +1,19 @@
+import { map } from 'lodash';
 import React, { ChangeEvent, SyntheticEvent, useContext } from 'react';
 import { useActor, useSelector } from '@xstate/react';
-import { Container, Box, Avatar, Typography, Grid, TextField, FormControlLabel, Checkbox, CircularProgress, Link } from '@mui/material';
+import {
+  Container,
+  Box,
+  Avatar,
+  Typography,
+  Grid,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  CircularProgress,
+  Link,
+  MenuItem
+} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Copyright } from '../copyright/Copyright';
@@ -9,13 +22,16 @@ import { FormEvent } from '../../../services/domain/form/definition/FormEvents';
 import {
   emailErrorSelector,
   firstNameErrorSelector,
-  invalidCredentialsSelector,
+  errorMessageSelector,
   isInvalidCredentialsSelector,
   isLoadingSelector,
   isRegisteredSelector,
   isValidationDisabledSelector,
   lastNameErrorSelector,
-  passwordErrorSelector
+  passwordErrorSelector,
+  extensionErrorSelector,
+  jobTitleErrorSelector,
+  officeCodeErrorSelector
 } from './Selectors';
 import { AuthEvents } from '../../../services/domain/authentication/auth/definition/AuthEvents';
 
@@ -26,14 +42,17 @@ export const Register = () => {
   const registerService = authState.context.registerRef!;
   const [state, sendToService] = useActor(registerService);
 
+  const extensionErrorMessage = useSelector(registerService, extensionErrorSelector);
   const firstNameErrorMessage = useSelector(registerService, firstNameErrorSelector);
+  const officeCodeErrorMessage = useSelector(registerService, officeCodeErrorSelector);
   const lastNameErrorMessage = useSelector(registerService, lastNameErrorSelector);
   const emailErrorMessage = useSelector(registerService, emailErrorSelector);
+  const jobTitleErrorMessage = useSelector(registerService, jobTitleErrorSelector);
   const passwordErrorMessage = useSelector(registerService, passwordErrorSelector);
   const isDisabled = useSelector(registerService, isValidationDisabledSelector);
   const isLoading = useSelector(registerService, isLoadingSelector);
   const isInvalid = useSelector(registerService, isInvalidCredentialsSelector);
-  const invalidCredentialsMessage = useSelector(registerService, invalidCredentialsSelector);
+  const invalidFormMessage = useSelector(registerService, errorMessageSelector);
   const isRegistered = useSelector(registerService, isRegisteredSelector);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -68,7 +87,7 @@ export const Register = () => {
           onSubmit={(event: SyntheticEvent) => (!isRegistered ? onSubmit(event) : sendToAuthService({ type: AuthEvents.SignIn }))}
         >
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 inputProps={{ autoComplete: 'off' }}
                 name="firstName"
@@ -82,7 +101,7 @@ export const Register = () => {
                 error={!!firstNameErrorMessage}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 inputProps={{ autoComplete: 'off' }}
                 name="lastName"
@@ -94,6 +113,55 @@ export const Register = () => {
                 onChange={(event) => handleChange(event)}
                 helperText={lastNameErrorMessage}
                 error={!!lastNameErrorMessage}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                inputProps={{ autoComplete: 'off' }}
+                name="officeCode"
+                required
+                fullWidth
+                id="officeCode"
+                label="Office"
+                autoFocus
+                select
+                onChange={(event) => handleChange(event)}
+                helperText={officeCodeErrorMessage}
+                error={!!officeCodeErrorMessage}
+              >
+                {map(state.context.offices, (office) => (
+                  <MenuItem key={office.code} value={office.code}>
+                    {office.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                inputProps={{ autoComplete: 'off' }}
+                name="extension"
+                required
+                fullWidth
+                id="extension"
+                label="Extension"
+                autoFocus
+                onChange={(event) => handleChange(event)}
+                helperText={extensionErrorMessage}
+                error={!!extensionErrorMessage}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                inputProps={{ autoComplete: 'off' }}
+                required
+                fullWidth
+                id="jobTitle"
+                label="Job title"
+                name="jobTitle"
+                autoFocus
+                onChange={(event) => handleChange(event)}
+                helperText={jobTitleErrorMessage}
+                error={!!jobTitleErrorMessage}
               />
             </Grid>
             <Grid item xs={12}>
@@ -134,7 +202,7 @@ export const Register = () => {
           </Grid>
           {isInvalid && (
             <Typography align="center" variant="body1" sx={{ color: 'error.main' }}>
-              {invalidCredentialsMessage}
+              {invalidFormMessage}
             </Typography>
           )}
           <LoadingButton

@@ -1,4 +1,6 @@
 import { assign, MachineOptions, spawn } from 'xstate';
+import { createEmployee } from '../../../../../models/api/employee';
+import { offices } from '../../../../../models/api/offices';
 import { createApiClient } from '../../../../api/utils/apiClient';
 import { FormValidateEvent } from '../../../form/definition/FormEvents';
 import { ForgotMachine } from '../../forgot/machine/ForgotMachine';
@@ -27,10 +29,8 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
         spawn(
           RegisterMachine.withContext({
             apiClient: createApiClient(),
-            firstName: undefined,
-            lastName: undefined,
-            password: undefined,
-            email: undefined,
+            employee: createEmployee(),
+            offices,
             errors: undefined
           }),
           'RegisterService'
