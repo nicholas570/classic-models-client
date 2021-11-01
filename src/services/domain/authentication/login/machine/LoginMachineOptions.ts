@@ -11,6 +11,7 @@ const isComplete = (context: LoginContext): boolean => !isEmpty(context.email) &
 
 export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
   guards: {
+    shouldFetch: (context: LoginContext) => false,
     isFormComplete: isComplete,
     isFormIncomplete: (context: LoginContext) => !isComplete(context),
     isFormValidated: (context: LoginContext, event: DoneEventObject) => event.data.isAuthenticated,

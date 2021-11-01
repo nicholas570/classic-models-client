@@ -8,6 +8,7 @@ const isComplete = (context: ForgotContext): boolean => !isEmpty(context.email);
 
 export const ForgotMachineOptions: FormMachineOptions<ForgotContext> = {
   guards: {
+    shouldFetch: (context: ForgotContext) => false,
     isFormComplete: isComplete,
     isFormIncomplete: (context: ForgotContext) => !isComplete(context),
     isFormValidated: (context: ForgotContext, event: DoneEventObject) => event.data === true,
