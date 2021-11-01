@@ -1,7 +1,8 @@
 import { get, isEmpty } from 'lodash';
 import { assign, DoneEventObject, sendParent } from 'xstate';
+import { ErrorResponse, ResponseContent } from '../../../../../models/api/response';
 import { Credentials } from '../../../../../models/auth/Credentials';
-import { login } from '../../../../api/login';
+import { loginAsync } from '../../../../api/login';
 import { FormErrorEvent, FormEvent, FormEvents, FormUpdateEvent } from '../../../form/definition/FormEvents';
 import { FormMachineOptions } from '../../../form/machine/FormMachineOptions';
 import { LoginContext, LoginErrors } from '../definition/LoginContext';
@@ -23,8 +24,8 @@ export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
         email: context.email!,
         password: context.password!
       };
-      const t = await login(context.apiClient, credentials);
-      return t;
+      const { payload } = await loginAsync(context.apiClient, credentials);
+      return payload;
     }
   },
   actions: {
@@ -59,8 +60,10 @@ export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
     }),
     onFormError: assign({
       errors: (context, event) => {
-        const { data } = event as FormErrorEvent;
-        return { message: data.response.data.message };
+        const { data: eventData } = event as FormErrorEvent;
+        const { payload } = eventData.response.data as ResponseContent<ErrorResponse>;
+        const { message } = payload;
+        return { message };
       }
     })
   },

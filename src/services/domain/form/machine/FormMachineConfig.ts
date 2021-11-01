@@ -41,17 +41,17 @@ export const FormMachineConfig: MachineConfig<any, FormSchema, FormEvents> = {
     [FormStates.Submitting]: {
       invoke: {
         src: 'submitAsync',
-        onError: [
-          {
-            target: FormStates.ValidationFailed,
-            actions: 'onFormError'
-          }
-        ],
         onDone: [
           {
             target: FormStates.Validated,
             cond: 'isFormValidated',
             actions: 'onValidated'
+          }
+        ],
+        onError: [
+          {
+            target: FormStates.ValidationFailed,
+            actions: 'onFormError'
           }
         ]
       }
