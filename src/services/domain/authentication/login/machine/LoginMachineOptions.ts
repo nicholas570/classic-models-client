@@ -1,6 +1,6 @@
 import { get, isEmpty } from 'lodash';
-import { assign, DoneEventObject, sendParent } from 'xstate';
-import { ErrorResponse, ResponseContent } from '../../../../../models/api/response';
+import { assign, DoneEventObject, DoneInvokeEvent, sendParent } from 'xstate';
+import { AuthResponse, ErrorResponse, ResponseContent } from '../../../../../models/api/response';
 import { Credentials } from '../../../../../models/auth/Credentials';
 import { loginAsync } from '../../../../api/login';
 import { FormErrorEvent, FormEvent, FormEvents, FormUpdateEvent } from '../../../form/definition/FormEvents';
@@ -13,7 +13,7 @@ export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
   guards: {
     isFormComplete: isComplete,
     isFormIncomplete: (context: LoginContext) => !isComplete(context),
-    isFormValidated: (context: LoginContext, event: DoneEventObject) => event.data.isAuthenticated === true,
+    isFormValidated: (context: LoginContext, event: DoneEventObject) => event.data.isAuthenticated,
     shouldBlock: (context: LoginContext, event: DoneEventObject) => true
   },
   services: {
@@ -55,7 +55,7 @@ export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
       };
     }),
     onBlock: assign((context: LoginContext, event: FormEvents) => context),
-    onValidated: sendParent((context, event: DoneEventObject) => {
+    onValidated: sendParent((context, event: DoneInvokeEvent<AuthResponse>) => {
       return { type: FormEvent.Validate, data: event.data.token };
     }),
     onFormError: assign({
