@@ -13,4 +13,4 @@ export const isValidationDisabledSelector = (state: LoginState) =>
 export const isLoadingSelector = (state: LoginState) => state.matches(FormStates.Submitting);
 export const isLoggedInSelector = (state: LoginState) => state.matches(FormStates.Validated);
 export const isInvalidCredentialsSelector = (state: LoginState) => state.matches(FormStates.ValidationFailed);
-export const invalidCredentialsSelector = (state: LoginState) => state.context.errors?.invalidCredentials;
+export const errorMessageSelector = (state: LoginState) => state.context.errors?.message;

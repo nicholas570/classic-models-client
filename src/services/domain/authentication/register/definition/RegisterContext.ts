@@ -1,3 +1,5 @@
+import { AxiosInstance } from 'axios';
+
 export type RegisterErrors = {
   firstName?: string;
   lastName?: string;
@@ -7,6 +9,7 @@ export type RegisterErrors = {
 };
 
 export interface RegisterContext {
+  apiClient: AxiosInstance;
   firstName?: string;
   lastName?: string;
   password?: string;

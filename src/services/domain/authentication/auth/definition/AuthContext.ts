@@ -1,3 +1,4 @@
+import { AxiosInstance } from 'axios';
 import { ActorRefFrom } from 'xstate';
 import { ForgotMachine } from '../../forgot/machine/ForgotMachine';
 import { LoginMachine } from '../../login/machine/LoginMachine';

@@ -1,3 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
 
-export const ApiClient: AxiosInstance = axios.create({ baseURL: 'https://jsonplaceholder.typicode.com/' });
+export const createApiClient = (token?: string): AxiosInstance => {
+  return axios.create({
+    baseURL: process.env.REACT_APP_SERVER_URL,
+    headers: { Authorization: `Bearer ${token}` }
+  });
+};

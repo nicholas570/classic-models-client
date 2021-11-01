@@ -11,7 +11,7 @@ import {
   emailErrorSelector,
   passwordErrorSelector,
   isValidationDisabledSelector,
-  invalidCredentialsSelector,
+  errorMessageSelector,
   isLoadingSelector,
   isLoggedInSelector
 } from './Selectors';
@@ -29,7 +29,7 @@ export const Login = () => {
   const isDisabled = useSelector(loginService, isValidationDisabledSelector);
   const isLoading = useSelector(loginService, isLoadingSelector);
   const isInvalid = useSelector(loginService, isInvalidCredentialsSelector);
-  const invalidCredentialsMessage = useSelector(loginService, invalidCredentialsSelector);
+  const invalidCredentialsMessage = useSelector(loginService, errorMessageSelector);
   const isLoggedIn = useSelector(loginService, isLoggedInSelector);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

@@ -1,7 +1,7 @@
 import { useActor } from '@xstate/react';
 import React, { useContext, useEffect, useState } from 'react';
-import { getUser } from '../../../services/api/getUser';
-import { ApiClient } from '../../../services/api/utils/apiClient';
+import { getEmployees } from '../../../services/api/getEmployees';
+
 import { AuthenticationContext } from '../../contexts/authentication/AuthenticationProvider';
 
 export const Home = () => {
@@ -10,11 +10,11 @@ export const Home = () => {
   const [user, setUser] = useState<any>({});
 
   useEffect(() => {
-    (async () => {
-      const result = await getUser();
-      setUser(result);
-    })();
+    // (async () => {
+    //   const result = await getEmployees();
+    //   setUser(result);
+    // })();
   }, []);
 
-  return <div>Welcome home {user.name}</div>;
+  return <div>Welcome home nicolas</div>;
 };
