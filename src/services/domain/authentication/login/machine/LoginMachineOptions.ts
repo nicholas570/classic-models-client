@@ -18,8 +18,6 @@ export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
   },
   services: {
     submitAsync: async (context: LoginContext): Promise<any> => {
-      // "email": "eManolo@classicmodelcars.com",
-      // "password": "pwd"
       const credentials: Credentials = {
         email: context.email!,
         password: context.password!
