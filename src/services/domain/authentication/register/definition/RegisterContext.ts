@@ -1,5 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { Employee } from '../../../../../models/api/employee';
+import { OfficeCode } from '../../../../../models/api/offices';
 
 export type RegisterErrors = {
   employeeNumber?: string;
@@ -15,5 +16,6 @@ export type RegisterErrors = {
 export interface RegisterContext {
   apiClient: AxiosInstance;
   employee: Employee;
+  offices?: OfficeCode[];
   errors?: RegisterErrors;
 }

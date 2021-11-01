@@ -2,6 +2,7 @@ import { get, isEmpty, every } from 'lodash';
 import { assign, DoneEventObject, DoneInvokeEvent, sendParent } from 'xstate';
 import { Employee } from '../../../../../models/api/employee';
 import { ErrorResponse, ResponseContent } from '../../../../../models/api/response';
+import { getOfficesAsync } from '../../../../api/getOffices';
 import { registerAsync } from '../../../../api/register';
 import { FormErrorEvent, FormEvent, FormEvents, FormUpdateEvent } from '../../../form/definition/FormEvents';
 import { FormMachineOptions } from '../../../form/machine/FormMachineOptions';
@@ -30,8 +31,6 @@ export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
   },
   services: {
     submitAsync: async (context: RegisterContext): Promise<any> => {
-      console.log(context.employee);
-
       const { payload } = await registerAsync(context.apiClient, context.employee);
       return payload;
     }
@@ -48,8 +47,6 @@ export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
       const officeCode = get(event, 'formData.officeCode', employee.officeCode);
       const jobTitle = get(event, 'formData.jobTitle', employee.jobTitle);
       const password = get(event, 'formData.password', employee.password);
-      console.log(isEmpty(officeCode));
-      console.log(officeCode);
 
       if (isEmpty(lastName)) {
         errors.lastName = 'Fill-in your last name';

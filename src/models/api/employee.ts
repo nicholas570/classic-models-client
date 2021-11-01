@@ -11,7 +11,6 @@ export interface Employee {
 
 export const createEmployee = () => {
   return {
-    employeeNumber: undefined,
     lastName: undefined,
     firstName: undefined,
     extension: undefined,

@@ -1,3 +1,4 @@
+import { map } from 'lodash';
 import React, { ChangeEvent, SyntheticEvent, useContext } from 'react';
 import { useActor, useSelector } from '@xstate/react';
 import {
@@ -121,16 +122,18 @@ export const Register = () => {
                 required
                 fullWidth
                 id="officeCode"
-                label="Office code"
+                label="Office"
                 autoFocus
                 select
                 onChange={(event) => handleChange(event)}
                 helperText={officeCodeErrorMessage}
                 error={!!officeCodeErrorMessage}
               >
-                <MenuItem key="rerz" value="efreztr">
-                  efreztr
-                </MenuItem>
+                {map(state.context.offices, (office) => (
+                  <MenuItem key={office.code} value={office.code}>
+                    {office.name}
+                  </MenuItem>
+                ))}
               </TextField>
             </Grid>
             <Grid item xs={12}>
