@@ -8,8 +8,28 @@ const onFormUpdate = [
 ];
 export const FormMachineConfig: MachineConfig<any, FormSchema, FormEvents> = {
   id: 'FormMachine',
-  initial: FormStates.Editing,
+  initial: FormStates.Initialize,
   states: {
+    [FormStates.Initialize]: {
+      always: [
+        {
+          target: FormStates.Fetching,
+          cond: 'shouldFetch'
+        },
+        { target: FormStates.Editing }
+      ]
+    },
+    [FormStates.Fetching]: {
+      invoke: {
+        src: 'fetchResources',
+        onDone: [
+          {
+            target: FormStates.Editing,
+            actions: 'onFetched'
+          }
+        ]
+      }
+    },
     [FormStates.Editing]: {
       always: [
         {

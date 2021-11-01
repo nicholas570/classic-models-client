@@ -1,7 +1,9 @@
 import { get, isEmpty, every } from 'lodash';
 import { assign, DoneEventObject, DoneInvokeEvent, sendParent } from 'xstate';
 import { Employee } from '../../../../../models/api/employee';
+import { Office } from '../../../../../models/api/offices';
 import { ErrorResponse, ResponseContent } from '../../../../../models/api/response';
+import { toOfficeCode } from '../../../../../models/utils/mapper';
 import { getOfficesAsync } from '../../../../api/getOffices';
 import { registerAsync } from '../../../../api/register';
 import { FormErrorEvent, FormEvent, FormEvents, FormUpdateEvent } from '../../../form/definition/FormEvents';
@@ -24,12 +26,17 @@ const isComplete = (context: RegisterContext): boolean => {
 
 export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
   guards: {
+    shouldFetch: (context: RegisterContext) => true,
     isFormComplete: (context: RegisterContext) => isComplete(context),
     isFormIncomplete: (context: RegisterContext) => !isComplete(context),
     isFormValidated: (context: RegisterContext, event: DoneEventObject) => event.data,
     shouldBlock: (context: RegisterContext) => true
   },
   services: {
+    fetchResources: async (context: RegisterContext): Promise<Office[]> => {
+      const { payload } = await getOfficesAsync(context.apiClient);
+      return payload;
+    },
     submitAsync: async (context: RegisterContext): Promise<any> => {
       const { payload } = await registerAsync(context.apiClient, context.employee);
       return payload;
@@ -81,6 +88,11 @@ export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
         employee: { ...context.employee, ...formData },
         errors: undefined
       };
+    }),
+    onFetched: assign({
+      offices: (context, event: DoneInvokeEvent<Office[]>) => {
+        return toOfficeCode(event.data);
+      }
     }),
     onValidated: sendParent((context, event: DoneInvokeEvent<Employee>) => {
       return { type: FormEvent.Validate, data: event.data };
