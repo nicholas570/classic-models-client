@@ -1,18 +1,19 @@
 import { AxiosInstance } from 'axios';
+import { Employee } from '../../../../../models/api/employee';
 
 export type RegisterErrors = {
-  firstName?: string;
+  employeeNumber?: string;
   lastName?: string;
+  firstName?: string;
+  extension?: string;
   email?: string;
+  officeCode?: string;
   password?: string;
-  invalidCredentials?: string;
+  jobTitle?: string;
+  message?: string;
 };
-
 export interface RegisterContext {
   apiClient: AxiosInstance;
-  firstName?: string;
-  lastName?: string;
-  password?: string;
-  email?: string;
+  employee: Employee;
   errors?: RegisterErrors;
 }
