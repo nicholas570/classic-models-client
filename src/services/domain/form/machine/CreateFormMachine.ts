@@ -4,6 +4,6 @@ import { FormSchema } from '../definition/FormSchema';
 import { FormMachineConfig } from './FormMachineConfig';
 import { FormMachineOptions } from './FormMachineOptions';
 
-export const CreateFormMachine = <T>(options: FormMachineOptions<T>) => {
+export const createFormMachine = <T>(options: FormMachineOptions<T>) => {
   return Machine<T, FormSchema, FormEvents>(FormMachineConfig, options);
 };

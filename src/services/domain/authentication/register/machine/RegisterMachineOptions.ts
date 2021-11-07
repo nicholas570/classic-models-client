@@ -43,6 +43,19 @@ export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
     }
   },
   actions: {
+    onFetched: assign({
+      offices: (context, event: DoneInvokeEvent<Office[]>) => {
+        return toOfficeCode(event.data);
+      }
+    }),
+    onUpdate: assign((context: RegisterContext, event: FormEvents) => {
+      const { formData } = event as FormUpdateEvent;
+      return {
+        ...context,
+        employee: { ...context.employee, ...formData },
+        errors: undefined
+      };
+    }),
     updateIncomplete: assign((context: RegisterContext, event: FormEvents) => {
       const errors: RegisterErrors = {};
       const { employee } = context;
@@ -80,19 +93,6 @@ export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
         ...context,
         errors
       };
-    }),
-    onUpdate: assign((context: RegisterContext, event: FormEvents) => {
-      const { formData } = event as FormUpdateEvent;
-      return {
-        ...context,
-        employee: { ...context.employee, ...formData },
-        errors: undefined
-      };
-    }),
-    onFetched: assign({
-      offices: (context, event: DoneInvokeEvent<Office[]>) => {
-        return toOfficeCode(event.data);
-      }
     }),
     onValidated: sendParent((context, event: DoneInvokeEvent<Employee>) => {
       return { type: FormEvent.Validate, data: event.data };

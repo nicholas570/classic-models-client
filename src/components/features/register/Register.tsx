@@ -131,7 +131,7 @@ export const Register = () => {
               >
                 {map(state.context.offices, (office) => (
                   <MenuItem key={office.code} value={office.code}>
-                    {office.name}
+                    {office.city}
                   </MenuItem>
                 ))}
               </TextField>
