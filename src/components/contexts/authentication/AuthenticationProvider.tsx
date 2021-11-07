@@ -2,7 +2,6 @@ import React, { createContext } from 'react';
 import { useInterpret } from '@xstate/react';
 import { ActorRefFrom } from 'xstate';
 import { AuthMachine } from '../../../services/domain/authentication/auth/machine/AuthMachine';
-import { createApiClient } from '../../../services/api/utils/apiClient';
 
 interface AuthenticationContextType {
   authService: ActorRefFrom<typeof AuthMachine>;
