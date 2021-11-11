@@ -7,14 +7,15 @@ import { FormErrorEvent, FormEvent, FormEvents, FormUpdateEvent } from '../../..
 import { FormMachineOptions } from '../../../form/machine/FormMachineOptions';
 import { LoginContext, LoginErrors } from '../definition/LoginContext';
 
-const isComplete = (context: LoginContext): boolean => !isEmpty(context.email) && !!(context.password && context.password.length);
+export const isComplete = (context: LoginContext): boolean => !isEmpty(context.email) && (context.password?.length ?? 0) >= 3;
+export const isValidated = (event: DoneInvokeEvent<AuthResponse>): boolean => event.data.isAuthenticated;
 
 export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
   guards: {
     shouldFetch: (context: LoginContext) => false,
     isFormComplete: isComplete,
     isFormIncomplete: (context: LoginContext) => !isComplete(context),
-    isFormValidated: (context: LoginContext, event: DoneEventObject) => event.data.isAuthenticated,
+    isFormValidated: (context: LoginContext, event: DoneEventObject) => isValidated(event as DoneInvokeEvent<AuthResponse>),
     shouldBlock: (context: LoginContext, event: DoneEventObject) => true
   },
   services: {
@@ -45,7 +46,7 @@ export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
       }
       if (isEmpty(password)) {
         errors.password = 'Fill-in your Password';
-      } else if (password.length < 6) {
+      } else if (password.length < 3) {
         errors.password = 'Password is too short :)';
       }
       return {

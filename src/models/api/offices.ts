@@ -10,7 +10,7 @@ export interface Office {
   territory: string;
 }
 
-export interface OfficeCode {
-  name: string;
+export interface OfficeDescription {
+  city: string;
   code: string;
 }

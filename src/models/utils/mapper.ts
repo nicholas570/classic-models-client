@@ -1,9 +1,10 @@
 import { map } from 'lodash';
-import { Office, OfficeCode } from '../api/offices';
+import { Office, OfficeDescription } from '../api/offices';
 
-export const toOfficeCode = (offices: Office[]): OfficeCode[] => {
-  const officesCode = map(offices, (office) => {
-    return { name: office.city, code: office.officeCode };
+export const toOfficeCode = (offices: Office[]): OfficeDescription[] => {
+  const officesCode = map(offices, (o) => {
+    const office: OfficeDescription = { city: o.city, code: o.officeCode };
+    return office;
   });
   return officesCode;
 };
