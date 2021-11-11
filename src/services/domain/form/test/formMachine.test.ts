@@ -120,4 +120,20 @@ describe('formMachine transitions', () => {
 
     formService.start();
   });
+
+  it('should go to validated after submitting', (done) => {
+    const formService = interpret(formMachine).onTransition((state) => {
+      if (state.matches(FormStates.Editing)) {
+        formService.send({ type: FormEvent.UpdateForm, formData: { testValue: 'This is a message from Mars' } });
+      }
+      if (state.matches(FormStates.EditingComplete)) {
+        formService.send({ type: FormEvent.Validate });
+      }
+      if (state.matches(FormStates.Validated)) {
+        done();
+      }
+    });
+
+    formService.start();
+  });
 });
