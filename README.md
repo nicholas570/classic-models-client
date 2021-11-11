@@ -76,9 +76,6 @@ Needed to enable hot reloading with CRA 4+ <br/>
 FAST_REFRESH=false
 
 ### Todos
-
-- [x] Forgot password form
-- [x] Forgot form machine
-- [ ] test
-- [ ] auth server
+- [ ] keep on testing
 - [ ] Global browse machine
+- [ ] Handle 500 in the machines
