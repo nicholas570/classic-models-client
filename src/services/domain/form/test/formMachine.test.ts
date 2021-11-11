@@ -24,8 +24,7 @@ const formMachineContext = {
   testValue: undefined
 };
 
-const isComplete = (context: FormMachineContext): boolean =>
-  !isEmpty(context.testValue) && !!(context.testValue && context.testValue.length);
+const isComplete = (context: FormMachineContext): boolean => !isEmpty(context.testValue) && !!context.testValue?.length;
 
 const options: FormMachineOptions<FormMachineContext> = {
   guards: {
@@ -87,17 +86,17 @@ const options: FormMachineOptions<FormMachineContext> = {
 };
 
 describe('formMachine transitions', () => {
-  const formMachine = createFormMachine(options).withContext(formMachineContext);
+  const FormMachine = createFormMachine(options).withContext(formMachineContext);
 
   it('should be in fetching on initial state', async () => {
     const expectedValue = FormStates.Fetching;
-    const actualState = formMachine.initialState;
+    const actualState = FormMachine.initialState;
 
     expect(actualState.matches(expectedValue)).toBeTruthy();
   });
 
   it('should go to editing from fetching', (done) => {
-    const formService = interpret(formMachine).onTransition((state) => {
+    const formService = interpret(FormMachine).onTransition((state) => {
       if (state.matches(FormStates.Editing)) {
         expect(state.context.resources).not.toBeUndefined();
         done();
@@ -108,7 +107,7 @@ describe('formMachine transitions', () => {
   });
 
   it('should go to editingComplete from editing', (done) => {
-    const formService = interpret(formMachine).onTransition((state) => {
+    const formService = interpret(FormMachine).onTransition((state) => {
       if (state.matches(FormStates.Editing)) {
         formService.send({ type: FormEvent.UpdateForm, formData: { testValue: 'This is a message from Mars' } });
       }
@@ -122,7 +121,7 @@ describe('formMachine transitions', () => {
   });
 
   it('should go to validated after submitting', (done) => {
-    const formService = interpret(formMachine).onTransition((state) => {
+    const formService = interpret(FormMachine).onTransition((state) => {
       if (state.matches(FormStates.Editing)) {
         formService.send({ type: FormEvent.UpdateForm, formData: { testValue: 'This is a message from Mars' } });
       }
