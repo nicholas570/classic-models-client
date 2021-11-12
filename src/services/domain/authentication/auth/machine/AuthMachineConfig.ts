@@ -38,6 +38,7 @@ export const AuthMachineConfig: MachineConfig<AuthContext, AuthSchema, AuthEvent
       }
     },
     [AuthStates.Authenticated]: {
+      entry: 'goToHomePage',
       type: 'final'
     }
   }

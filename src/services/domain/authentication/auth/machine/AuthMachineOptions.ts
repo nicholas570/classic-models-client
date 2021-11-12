@@ -47,10 +47,11 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
     }),
     assignToken: assign({
       token: (context, event) => {
-        const d = (event as FormValidateEvent).data;
-        return d;
+        const token = (event as FormValidateEvent).data;
+        return token;
       }
-    })
+    }),
+    goToHomePage: ({ history }) => history.push('/home')
   },
   guards: {},
   activities: {},
