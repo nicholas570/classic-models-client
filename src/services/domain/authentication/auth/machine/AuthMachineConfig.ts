@@ -6,8 +6,13 @@ import { AuthSchema, AuthStates } from '../definition/AuthSchema';
 
 export const AuthMachineConfig: MachineConfig<AuthContext, AuthSchema, AuthEvent> = {
   id: 'auth',
-  initial: AuthStates.Login,
+  initial: AuthStates.Idle,
   states: {
+    [AuthStates.Idle]: {
+      always: {
+        target: AuthStates.Login
+      }
+    },
     [AuthStates.Login]: {
       entry: 'assignLoginRef',
       on: {
