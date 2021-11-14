@@ -1,7 +1,7 @@
 import { StateSchema } from 'xstate';
 
 export enum FormStates {
-  Initialize = 'initialize',
+  Idle = 'idle',
   Editing = 'editing',
   EditingComplete = 'editingComplete',
   Submitting = 'submitting',
@@ -14,6 +14,7 @@ export enum FormStates {
 
 export type FormSchema = StateSchema<any> & {
   states: {
+    [FormStates.Idle]: StateSchema<any>;
     [FormStates.Editing]: StateSchema<any>;
     [FormStates.EditingComplete]: StateSchema<any>;
     [FormStates.Submitting]: StateSchema<any>;
