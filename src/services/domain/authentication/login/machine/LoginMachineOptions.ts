@@ -8,7 +8,7 @@ import { FormMachineOptions } from '../../../form/machine/FormMachineOptions';
 import { LoginContext, LoginErrors } from '../definition/LoginContext';
 
 export const isComplete = (context: LoginContext): boolean => !isEmpty(context.email) && (context.password?.length ?? 0) >= 3;
-export const isValidated = (event: DoneInvokeEvent<AuthResponse>): boolean => event.data.isAuthenticated;
+export const isValidated = (event: DoneInvokeEvent<AuthResponse>): boolean => !!event.data.token;
 
 export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
   guards: {
