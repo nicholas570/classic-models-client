@@ -35,8 +35,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --coverage --runInBand --watchAll",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext .ts --ext .tsx --fix",
-    "precommit": "lint-staged"
+    "lint": "eslint --ext .ts --ext .tsx --fix"
   },
   "eslintConfig": {
     "extends": [
@@ -96,7 +95,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run precommit"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
