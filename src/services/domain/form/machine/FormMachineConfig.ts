@@ -8,9 +8,9 @@ const onFormUpdate = [
 ];
 export const FormMachineConfig: MachineConfig<any, FormSchema, FormEvents> = {
   id: 'FormMachine',
-  initial: FormStates.Initialize,
+  initial: FormStates.Idle,
   states: {
-    [FormStates.Initialize]: {
+    [FormStates.Idle]: {
       always: [
         {
           target: FormStates.Fetching,

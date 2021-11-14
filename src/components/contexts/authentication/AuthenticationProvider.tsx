@@ -16,13 +16,14 @@ export const AuthenticationContext = createContext<AuthenticationContextType>({}
 
 export const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
   const history = useHistory();
+  const redirect = () => history.push('/home');
   /**
    * To avoid multiple re render using Context Api
    * we provide a static reference to the running machines
    * that change as little as possible.
    * These service should be subscribed in consumers
    */
-  const authService = useInterpret(AuthMachine.withContext({ history }), { devTools: true });
+  const authService = useInterpret(AuthMachine.withContext({ redirect }), { devTools: true });
 
   authService.onTransition((listener) => console.debug(`Auth service: ${listener.value}`));
 

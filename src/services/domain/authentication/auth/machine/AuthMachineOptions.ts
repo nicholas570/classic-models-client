@@ -51,7 +51,7 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
         return token;
       }
     }),
-    goToHomePage: ({ history }) => history.push('/home')
+    goToHomePage: ({ redirect }) => redirect()
   },
   guards: {},
   activities: {},
