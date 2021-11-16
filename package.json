@@ -33,9 +33,12 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage --runInBand --watchAll",
+    "test": "react-scripts test",
+    "test:watch": "react-scripts test --coverage --runInBand --watchAll",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .ts --ext .tsx --fix",
+    "lint:check": "eslint .",
+    "prettier:fix": "prettier --write .",
     "precommit": "lint-staged"
   },
   "eslintConfig": {
@@ -94,15 +97,11 @@
     "husky": "^7.0.2",
     "prettier": "^2.4.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run precommit"
-    }
-  },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
+      "npm run lint:check",
       "npm run lint",
-      "prettier --write"
+      "npm run prettier:fix"
     ]
   }
 }

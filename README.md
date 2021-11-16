@@ -1,3 +1,6 @@
+![CI/CD](https://github.com/nicholas570/classic-models-client/workflows/CI/CD/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
@@ -76,6 +79,7 @@ Needed to enable hot reloading with CRA 4+ <br/>
 FAST_REFRESH=false
 
 ### Todos
+
 - [ ] keep on testing
 - [ ] Global browse machine
 - [ ] Handle 500 in the machines

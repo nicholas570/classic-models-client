@@ -25,7 +25,5 @@ export const AuthenticationProvider = ({ children }: AuthenticationProviderProps
    */
   const authService = useInterpret(AuthMachine.withContext({ redirect }), { devTools: true });
 
-  authService.onTransition((listener) => console.debug(`Auth service: ${listener.value}`));
-
   return <AuthenticationContext.Provider value={{ authService }}>{children}</AuthenticationContext.Provider>;
 };

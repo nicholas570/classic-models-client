@@ -15,7 +15,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
-    "import/prefer-default-export": "off",
+    "import/prefer-default-export": 0,
     "arrow-body-style": 0,
     "react/jsx-props-no-spreading": 0,
     "react/no-unescaped-entities": 0,
@@ -27,5 +27,5 @@
     "no-nested-ternary": 0,
     "jsx-a11y/anchor-is-valid": 0
   },
-  "ignorePatterns": [".eslintrc.json"]
+  "ignorePatterns": [".eslintrc.json", "coverage"]
 }

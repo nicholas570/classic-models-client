@@ -7,5 +7,9 @@ export const Home = () => {
   const { authService } = useContext(AuthenticationContext);
   const [authState, sendToAuthService] = useActor(authService);
 
-  return <div>Welcome home nicolas</div>;
+  return (
+    <div>
+      <p>Welcome home user</p>
+    </div>
+  );
 };
