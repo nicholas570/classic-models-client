@@ -1,3 +1,5 @@
+![CI/CD](https://github.com/nicholas570/classic-models-client/workflows/CI/CD/badge.svg)
+
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
