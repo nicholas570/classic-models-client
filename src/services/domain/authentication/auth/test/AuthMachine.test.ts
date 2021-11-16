@@ -101,12 +101,12 @@ describe('auth service actions', () => {
     authService.start();
     authService.send({ type: AuthEvents.Forgot });
   });
-  it('should assign the auth token validate event', (done) => {
+  it('should assign the token on validate event', (done) => {
     const authService = interpret(
       AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined, redirect: jest.fn() })
     ).onTransition((state) => {
       if (state.matches(AuthStates.Authenticated)) {
-        expect(state.context.token).toBeUndefined();
+        expect(state.context.token).not.toBeUndefined();
         done();
       }
     });
