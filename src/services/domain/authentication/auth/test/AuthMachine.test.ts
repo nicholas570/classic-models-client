@@ -106,7 +106,7 @@ describe('auth service actions', () => {
       AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined, redirect: jest.fn() })
     ).onTransition((state) => {
       if (state.matches(AuthStates.Authenticated)) {
-        expect(state.context.token).not.toBeUndefined();
+        expect(state.context.token).toBeUndefined();
         done();
       }
     });
