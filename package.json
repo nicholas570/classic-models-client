@@ -98,7 +98,7 @@
     "src/**/*.{ts,tsx}": [
       "npm run lint",
       "prettier --write",
-      "./node_modules/.bin/eslint --max-warnings=0"
+      "eslint . --max-warnings=0"
     ]
   }
 }
