@@ -36,6 +36,8 @@
     "test": "react-scripts test --coverage --runInBand --watchAll",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .ts --ext .tsx --fix",
+    "lint:check": "eslint . --max-warnings=0",
+    "prettier:fix": "prettier --write .",
     "precommit": "lint-staged"
   },
   "eslintConfig": {
@@ -96,9 +98,9 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
+      "npm run lint:check",
       "npm run lint",
-      "prettier --write",
-      "eslint . --max-warnings=0"
+      "npm run prettier:fix"
     ]
   }
 }
