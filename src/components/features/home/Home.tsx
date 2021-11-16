@@ -9,7 +9,7 @@ export const Home = () => {
 
   return (
     <div>
-      <p>Welcome home nicolas</p>
+      <p>Welcome home user</p>
     </div>
   );
 };
