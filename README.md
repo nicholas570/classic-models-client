@@ -1,4 +1,5 @@
 ![CI/CD](https://github.com/nicholas570/classic-models-client/workflows/CI/CD/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
