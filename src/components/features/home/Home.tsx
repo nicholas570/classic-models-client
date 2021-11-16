@@ -10,7 +10,6 @@ export const Home = () => {
   return (
     <div>
       <p>Welcome home nicolas</p>
-      <img src="/.src" />
     </div>
   );
 };

@@ -36,7 +36,7 @@
     "test": "react-scripts test --coverage --runInBand --watchAll",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .ts --ext .tsx --fix",
-    "lint:check": "eslint . --max-warnings=0",
+    "lint:check": "eslint .",
     "prettier:fix": "prettier --write .",
     "precommit": "lint-staged"
   },
