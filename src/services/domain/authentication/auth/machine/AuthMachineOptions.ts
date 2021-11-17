@@ -50,8 +50,7 @@ export const AuthMachineOptions: MachineOptions<AuthContext, AuthEvent> = {
         const token = (event as FormValidateEvent).data;
         return token;
       }
-    }),
-    goToHomePage: ({ redirect }) => redirect()
+    })
   },
   guards: {},
   activities: {},
