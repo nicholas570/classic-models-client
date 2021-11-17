@@ -59,7 +59,7 @@ describe('transition to register state', () => {
 describe('auth service actions', () => {
   it('should assign the login machine ref on entering sign in', (done) => {
     const authService = interpret(
-      AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined, redirect: jest.fn() })
+      AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined })
     ).onTransition((state) => {
       if (state.matches(AuthStates.Login)) {
         expect(state.context.loginRef).not.toBeUndefined();
@@ -73,7 +73,7 @@ describe('auth service actions', () => {
   });
   it('should assign the register machine ref on entering register', (done) => {
     const authService = interpret(
-      AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined, redirect: jest.fn() })
+      AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined })
     ).onTransition((state) => {
       if (state.matches(AuthStates.Register)) {
         expect(state.context.registerRef).not.toBeUndefined();
@@ -88,7 +88,7 @@ describe('auth service actions', () => {
   });
   it('should assign the forgot machine ref on entering forgot', (done) => {
     const authService = interpret(
-      AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined, redirect: jest.fn() })
+      AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined })
     ).onTransition((state) => {
       if (state.matches(AuthStates.Forgot)) {
         expect(state.context.forgotRef).not.toBeUndefined();
@@ -103,7 +103,7 @@ describe('auth service actions', () => {
   });
   it('should assign the token on validate event', (done) => {
     const authService = interpret(
-      AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined, redirect: jest.fn() })
+      AuthMachine.withContext({ loginRef: undefined, registerRef: undefined, forgotRef: undefined, token: undefined })
     ).onTransition((state) => {
       if (state.matches(AuthStates.Authenticated)) {
         expect(state.context.token).not.toBeUndefined();
