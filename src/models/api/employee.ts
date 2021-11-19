@@ -8,15 +8,3 @@ export interface Employee {
   jobTitle?: string;
   password?: string;
 }
-
-export const createEmployee = () => {
-  return {
-    lastName: undefined,
-    firstName: undefined,
-    extension: undefined,
-    email: undefined,
-    officeCode: undefined,
-    jobTitle: undefined,
-    password: undefined
-  };
-};

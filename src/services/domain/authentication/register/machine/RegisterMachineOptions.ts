@@ -10,7 +10,7 @@ import { FormErrorEvent, FormEvent, FormEvents, FormUpdateEvent } from '../../..
 import { FormMachineOptions } from '../../../form/machine/FormMachineOptions';
 import { RegisterContext, RegisterErrors } from '../definition/RegisterContext';
 
-const isComplete = (context: RegisterContext): boolean => {
+export const isComplete = (context: RegisterContext): boolean => {
   const { employee } = context;
   const formValues = [
     employee.lastName,
@@ -29,7 +29,7 @@ export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
     shouldFetch: (context: RegisterContext) => true,
     isFormComplete: (context: RegisterContext) => isComplete(context),
     isFormIncomplete: (context: RegisterContext) => !isComplete(context),
-    isFormValidated: (context: RegisterContext, event: DoneEventObject) => event.data,
+    isFormValidated: (context: RegisterContext, event: DoneEventObject) => !!(event as DoneInvokeEvent<Employee>).data,
     shouldBlock: (context: RegisterContext) => true
   },
   services: {
