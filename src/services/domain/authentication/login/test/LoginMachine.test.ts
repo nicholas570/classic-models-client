@@ -46,10 +46,7 @@ describe('isValidated guard', () => {
   it('should not validate the event', () => {
     const event: DoneInvokeEvent<AuthResponse> = {
       type: 'done.invoke.submitAsync',
-      data: {
-        isAuthenticated: false,
-        token: ''
-      }
+      data: {}
     };
 
     expect(isValidated(event)).toBeFalsy();
@@ -59,7 +56,6 @@ describe('isValidated guard', () => {
     const event: DoneInvokeEvent<AuthResponse> = {
       type: 'done.invoke.submitAsync',
       data: {
-        isAuthenticated: true,
         token: 'sqdqsdqezzaqdqsd.qfqzrezaer.arazedaze543dz5e'
       }
     };
@@ -111,6 +107,41 @@ describe('Login machine options', () => {
       }
       if (state.matches(FormStates.InvalidForm)) {
         expect(state.context.errors?.email).not.toBeUndefined();
+        done();
+      }
+    });
+
+    loginService.start();
+  });
+
+  it('should failed the validation', (done) => {
+    const loginService = interpret(machine).onTransition((state) => {
+      if (state.matches(FormStates.Editing)) {
+        loginService.send({ type: FormEvent.UpdateForm, formData: { email: 'mail@mail.com', password: 'password' } });
+      }
+      if (state.matches(FormStates.EditingComplete)) {
+        loginService.send({ type: FormEvent.Validate });
+      }
+      if (state.matches(FormStates.ValidationFailed)) {
+        expect(state.context.errors?.message).not.toBeUndefined();
+        done();
+      }
+    });
+
+    loginService.start();
+  });
+
+  it('should success the validation', (done) => {
+    let hasValidated = false;
+    const loginService = interpret(machine.withConfig({ actions: { onValidated: () => (hasValidated = true) } })).onTransition((state) => {
+      if (state.matches(FormStates.Editing)) {
+        loginService.send({ type: FormEvent.UpdateForm, formData: { email: 'eManolo@classicmodelcars.com', password: 'pwd' } });
+      }
+      if (state.matches(FormStates.EditingComplete)) {
+        loginService.send({ type: FormEvent.Validate });
+      }
+      if (state.matches(FormStates.Validated)) {
+        expect(hasValidated).toBeTruthy();
         done();
       }
     });
