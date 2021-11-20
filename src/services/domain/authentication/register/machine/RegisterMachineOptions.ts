@@ -21,7 +21,7 @@ export const isComplete = (context: RegisterContext): boolean => {
     employee.jobTitle,
     employee.password
   ];
-  return every(formValues, (value) => !isEmpty(value));
+  return every(formValues, (value) => !isEmpty(value)) && (employee.password?.length ?? 0) >= 3;
 };
 
 export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
@@ -88,15 +88,15 @@ export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
       }
       if (isEmpty(password)) {
         errors.password = 'Fill-in your Password';
+      } else if (password.length < 3) {
+        errors.password = 'Password is too short :)';
       }
       return {
         ...context,
         errors
       };
     }),
-    onValidated: sendParent((context, event: DoneInvokeEvent<Employee>) => {
-      return { type: FormEvent.Validate, data: event.data };
-    }),
+    onValidated: sendParent({ type: FormEvent.Validate }),
     onFormError: assign({
       errors: (context, event) => {
         const { data: eventData } = event as FormErrorEvent;
