@@ -14,5 +14,5 @@ export interface AxiosErrorResponse<T> extends AxiosError {
 }
 
 export interface AuthResponse {
-  token: string;
+  token?: string;
 }

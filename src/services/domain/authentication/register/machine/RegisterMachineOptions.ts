@@ -10,7 +10,7 @@ import { FormErrorEvent, FormEvent, FormEvents, FormUpdateEvent } from '../../..
 import { FormMachineOptions } from '../../../form/machine/FormMachineOptions';
 import { RegisterContext, RegisterErrors } from '../definition/RegisterContext';
 
-const isComplete = (context: RegisterContext): boolean => {
+export const isComplete = (context: RegisterContext): boolean => {
   const { employee } = context;
   const formValues = [
     employee.lastName,
@@ -21,7 +21,7 @@ const isComplete = (context: RegisterContext): boolean => {
     employee.jobTitle,
     employee.password
   ];
-  return every(formValues, (value) => !isEmpty(value));
+  return every(formValues, (value) => !isEmpty(value)) && (employee.password?.length ?? 0) >= 3;
 };
 
 export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
@@ -29,7 +29,7 @@ export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
     shouldFetch: (context: RegisterContext) => true,
     isFormComplete: (context: RegisterContext) => isComplete(context),
     isFormIncomplete: (context: RegisterContext) => !isComplete(context),
-    isFormValidated: (context: RegisterContext, event: DoneEventObject) => event.data,
+    isFormValidated: (context: RegisterContext, event: DoneEventObject) => !!(event as DoneInvokeEvent<Employee>).data,
     shouldBlock: (context: RegisterContext) => true
   },
   services: {
@@ -88,15 +88,15 @@ export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
       }
       if (isEmpty(password)) {
         errors.password = 'Fill-in your Password';
+      } else if (password.length < 3) {
+        errors.password = 'Password is too short :)';
       }
       return {
         ...context,
         errors
       };
     }),
-    onValidated: sendParent((context, event: DoneInvokeEvent<Employee>) => {
-      return { type: FormEvent.Validate, data: event.data };
-    }),
+    onValidated: sendParent({ type: FormEvent.Validate }),
     onFormError: assign({
       errors: (context, event) => {
         const { data: eventData } = event as FormErrorEvent;
