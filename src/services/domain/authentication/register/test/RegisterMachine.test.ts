@@ -1,6 +1,8 @@
 import { interpret } from 'xstate';
-import { Register } from '../../../../../components/features/register/Register';
+import { Office } from '../../../../../models/api/offices';
 import { createNewEmployee } from '../../../../../models/utils/createEmployee';
+import { loginErrorMock } from '../../../../../test/mocks/loginErrorMock';
+import { officesMock } from '../../../../../test/mocks/officesMock';
 import { createApiClient } from '../../../../api/utils/apiClient';
 import { FormEvent } from '../../../form/definition/FormEvents';
 import { FormStates } from '../../../form/definition/FormSchema';
@@ -53,7 +55,15 @@ describe('Register machine options', () => {
   });
 
   it('should fetch the offices', (done) => {
-    const registerService = interpret(machine).onTransition((state) => {
+    const registerService = interpret(
+      machine.withConfig({
+        services: {
+          fetchResources: async (context: RegisterContext): Promise<Office[]> => {
+            return Promise.resolve(officesMock);
+          }
+        }
+      })
+    ).onTransition((state) => {
       if (state.matches(FormStates.Editing)) {
         expect(state.context.offices).not.toBeUndefined();
         done();
@@ -115,63 +125,77 @@ describe('Register machine options', () => {
 
   it('should failed the validation', (done) => {
     let hasValidated = false;
-    const registerService = interpret(machine.withConfig({ actions: { onValidated: () => (hasValidated = true) } })).onTransition(
-      (state) => {
-        if (state.matches(FormStates.Editing)) {
-          registerService.send({
-            type: FormEvent.UpdateForm,
-            formData: {
-              password: 'sdds',
-              email: 'eManolo@classicmodelcars.com',
-              lastName: 'Bates',
-              firstName: 'John',
-              extension: 'sdf34',
-              officeCode: '4',
-              jobTitle: 'a nice job'
-            }
-          });
-        }
-        if (state.matches(FormStates.EditingComplete)) {
-          registerService.send({ type: FormEvent.Validate });
-        }
-        if (state.matches(FormStates.ValidationFailed)) {
-          expect(state.context.errors?.message).not.toBeUndefined();
-          expect(hasValidated).toBeFalsy();
-          done();
-        }
+    const registerService = interpret(
+      machine.withConfig({
+        services: {
+          submitAsync: async (context: RegisterContext): Promise<any> => {
+            return Promise.reject(loginErrorMock);
+          }
+        },
+        actions: { onValidated: () => (hasValidated = true) }
+      })
+    ).onTransition((state) => {
+      if (state.matches(FormStates.Editing)) {
+        registerService.send({
+          type: FormEvent.UpdateForm,
+          formData: {
+            password: 'sdds',
+            email: 'eManolo@classicmodelcars.com',
+            lastName: 'Bates',
+            firstName: 'John',
+            extension: 'sdf34',
+            officeCode: '4',
+            jobTitle: 'a nice job'
+          }
+        });
       }
-    );
+      if (state.matches(FormStates.EditingComplete)) {
+        registerService.send({ type: FormEvent.Validate });
+      }
+      if (state.matches(FormStates.ValidationFailed)) {
+        expect(state.context.errors?.message).not.toBeUndefined();
+        expect(hasValidated).toBeFalsy();
+        done();
+      }
+    });
 
     registerService.start();
   });
 
   it('should success the validation', (done) => {
     let hasValidated = false;
-    const registerService = interpret(machine.withConfig({ actions: { onValidated: () => (hasValidated = true) } })).onTransition(
-      (state) => {
-        if (state.matches(FormStates.Editing)) {
-          registerService.send({
-            type: FormEvent.UpdateForm,
-            formData: {
-              password: 'sdds',
-              email: `test${Date.now()}@classicmodelcars.com`,
-              lastName: 'Bates',
-              firstName: 'John',
-              extension: 'sdf34',
-              officeCode: '4',
-              jobTitle: 'a nice job'
-            }
-          });
-        }
-        if (state.matches(FormStates.EditingComplete)) {
-          registerService.send({ type: FormEvent.Validate });
-        }
-        if (state.matches(FormStates.Validated)) {
-          expect(hasValidated).toBeTruthy();
-          done();
-        }
+    const registerService = interpret(
+      machine.withConfig({
+        services: {
+          submitAsync: async (context: RegisterContext): Promise<any> => {
+            return Promise.resolve('success');
+          }
+        },
+        actions: { onValidated: () => (hasValidated = true) }
+      })
+    ).onTransition((state) => {
+      if (state.matches(FormStates.Editing)) {
+        registerService.send({
+          type: FormEvent.UpdateForm,
+          formData: {
+            password: 'sdds',
+            email: 'test@classicmodelcars.com',
+            lastName: 'Bates',
+            firstName: 'John',
+            extension: 'sdf34',
+            officeCode: '4',
+            jobTitle: 'a nice job'
+          }
+        });
       }
-    );
+      if (state.matches(FormStates.EditingComplete)) {
+        registerService.send({ type: FormEvent.Validate });
+      }
+      if (state.matches(FormStates.Validated)) {
+        expect(hasValidated).toBeTruthy();
+        done();
+      }
+    });
 
     registerService.start();
   });
