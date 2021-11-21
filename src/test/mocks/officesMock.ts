@@ -1,4 +1,6 @@
-export const officesMock = [
+import { Office } from '../../models/api/offices';
+
+export const officesMock: Office[] = [
   {
     officeCode: '1',
     city: 'San Francisco',

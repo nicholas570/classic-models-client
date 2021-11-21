@@ -1,7 +1,8 @@
 import { DoneInvokeEvent, interpret } from 'xstate';
 import { AuthResponse } from '../../../../../models/api/response';
+import { loginErrorMock } from '../../../../../test/mocks/loginErrorMock';
 import { createApiClient } from '../../../../api/utils/apiClient';
-import { FormEvent } from '../../../form/definition/FormEvents';
+import { FormEvent, FormEvents } from '../../../form/definition/FormEvents';
 import { FormStates } from '../../../form/definition/FormSchema';
 import { LoginContext } from '../definition/LoginContext';
 import { LoginMachine } from '../machine/LoginMachine';
@@ -115,7 +116,15 @@ describe('Login machine options', () => {
   });
 
   it('should failed the validation', (done) => {
-    const loginService = interpret(machine).onTransition((state) => {
+    const loginService = interpret(
+      machine.withConfig({
+        services: {
+          submitAsync: async (context: LoginContext): Promise<AuthResponse> => {
+            return Promise.reject(loginErrorMock);
+          }
+        }
+      })
+    ).onTransition((state) => {
       if (state.matches(FormStates.Editing)) {
         loginService.send({ type: FormEvent.UpdateForm, formData: { email: 'mail@mail.com', password: 'password' } });
       }
@@ -133,15 +142,33 @@ describe('Login machine options', () => {
 
   it('should success the validation', (done) => {
     let hasValidated = false;
-    const loginService = interpret(machine.withConfig({ actions: { onValidated: () => (hasValidated = true) } })).onTransition((state) => {
+    let tokenValue = '';
+    const loginService = interpret(
+      machine.withConfig({
+        services: {
+          submitAsync: async (context: LoginContext): Promise<AuthResponse> => {
+            return Promise.resolve({ token: 'some.token' });
+          }
+        },
+        actions: {
+          onValidated: (context: LoginContext, event: FormEvents) => {
+            hasValidated = true;
+            const { data } = event as DoneInvokeEvent<AuthResponse>;
+            const { token } = data;
+            tokenValue = token!;
+          }
+        }
+      })
+    ).onTransition((state) => {
       if (state.matches(FormStates.Editing)) {
-        loginService.send({ type: FormEvent.UpdateForm, formData: { email: 'eManolo@classicmodelcars.com', password: 'pwd' } });
+        loginService.send({ type: FormEvent.UpdateForm, formData: { email: 'mail@mail.com', password: 'pwd' } });
       }
       if (state.matches(FormStates.EditingComplete)) {
         loginService.send({ type: FormEvent.Validate });
       }
       if (state.matches(FormStates.Validated)) {
         expect(hasValidated).toBeTruthy();
+        expect(tokenValue).toEqual('some.token');
         done();
       }
     });

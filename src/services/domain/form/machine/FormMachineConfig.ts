@@ -66,6 +66,9 @@ export const FormMachineConfig: MachineConfig<any, FormSchema, FormEvents> = {
             target: FormStates.Validated,
             cond: 'isFormValidated',
             actions: 'onValidated'
+          },
+          {
+            target: FormStates.ValidationFailed
           }
         ],
         onError: [

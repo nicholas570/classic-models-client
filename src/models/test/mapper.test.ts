@@ -1,4 +1,4 @@
-import { officesMock } from '../../test/mocks/offices';
+import { officesMock } from '../../test/mocks/officesMock';
 import { OfficeDescription } from '../api/offices';
 import { toOfficeCode } from '../utils/mapper';
 
