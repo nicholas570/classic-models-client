@@ -2,7 +2,7 @@ import { DoneInvokeEvent, interpret } from 'xstate';
 import { AuthResponse } from '../../../../../models/api/response';
 import { loginErrorMock } from '../../../../../test/mocks/loginErrorMock';
 import { createApiClient } from '../../../../api/utils/apiClient';
-import { FormEvent } from '../../../form/definition/FormEvents';
+import { FormEvent, FormEvents } from '../../../form/definition/FormEvents';
 import { FormStates } from '../../../form/definition/FormSchema';
 import { LoginContext } from '../definition/LoginContext';
 import { LoginMachine } from '../machine/LoginMachine';
@@ -142,6 +142,7 @@ describe('Login machine options', () => {
 
   it('should success the validation', (done) => {
     let hasValidated = false;
+    let tokenValue = '';
     const loginService = interpret(
       machine.withConfig({
         services: {
@@ -149,7 +150,14 @@ describe('Login machine options', () => {
             return Promise.resolve({ token: 'some.token' });
           }
         },
-        actions: { onValidated: () => (hasValidated = true) }
+        actions: {
+          onValidated: (context: LoginContext, event: FormEvents) => {
+            hasValidated = true;
+            const { data } = event as DoneInvokeEvent<AuthResponse>;
+            const { token } = data;
+            tokenValue = token!;
+          }
+        }
       })
     ).onTransition((state) => {
       if (state.matches(FormStates.Editing)) {
@@ -160,6 +168,7 @@ describe('Login machine options', () => {
       }
       if (state.matches(FormStates.Validated)) {
         expect(hasValidated).toBeTruthy();
+        expect(tokenValue).toEqual('some.token');
         done();
       }
     });
