@@ -1,9 +1,9 @@
 import { FormValidateEvent } from '../../../form/definition/FormEvents';
 
 export enum AuthEvents {
-  Register = 'register',
-  SignIn = 'signIn',
-  Forgot = 'forgot'
+  REGISTER = 'REGISTER',
+  SIGN_IN = 'SIGN_IN',
+  FORGOT = 'FORGOT'
 }
 
-export type AuthEvent = { type: AuthEvents.Register } | { type: AuthEvents.SignIn } | { type: AuthEvents.Forgot } | FormValidateEvent;
+export type AuthEvent = { type: AuthEvents.REGISTER } | { type: AuthEvents.SIGN_IN } | { type: AuthEvents.FORGOT } | FormValidateEvent;

@@ -1,12 +1,12 @@
 import { AxiosErrorResponse, ResponseContent } from '../../../../models/api/response';
 
 export enum FormEvent {
-  Validate = 'validate',
-  UpdateForm = 'update'
+  VALIDATE = 'VALIDATE',
+  UPDATE_FORM = 'UPDATE_FORM'
 }
 
-export type FormUpdateEvent = { type: FormEvent.UpdateForm; formData: any };
-export type FormValidateEvent = { type: FormEvent.Validate; data?: any };
+export type FormUpdateEvent = { type: FormEvent.UPDATE_FORM; formData: any };
+export type FormValidateEvent = { type: FormEvent.VALIDATE; data?: any };
 export type FormErrorEvent = { type: any; data: AxiosErrorResponse<ResponseContent<any>> };
 
 export type FormEvents = FormUpdateEvent | FormValidateEvent | FormErrorEvent;

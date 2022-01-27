@@ -1,19 +1,19 @@
 import { StateSchema } from 'xstate';
 
 export enum AuthStates {
-  Idle = 'idle',
-  Register = 'register',
-  Login = 'login',
-  Forgot = 'forgot',
-  Authenticated = 'authenticated'
+  IDLE = 'IDLE',
+  REGISTER = 'REGISTER',
+  LOGIN = 'LOGIN',
+  FORGOT = 'FORGOT',
+  AUTHENTICATED = 'AUTHENTICATED'
 }
 
 export type AuthSchema = StateSchema<any> & {
   states: {
-    [AuthStates.Idle]: StateSchema<any>;
-    [AuthStates.Register]: StateSchema<any>;
-    [AuthStates.Login]: StateSchema<any>;
-    [AuthStates.Forgot]: StateSchema<any>;
-    [AuthStates.Authenticated]: StateSchema<any>;
+    [AuthStates.IDLE]: StateSchema<any>;
+    [AuthStates.REGISTER]: StateSchema<any>;
+    [AuthStates.LOGIN]: StateSchema<any>;
+    [AuthStates.FORGOT]: StateSchema<any>;
+    [AuthStates.AUTHENTICATED]: StateSchema<any>;
   };
 };

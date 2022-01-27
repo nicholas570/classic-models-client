@@ -1,9 +1,13 @@
-import { Machine, State } from 'xstate';
+import { assign, createMachine, spawn, State } from 'xstate';
+import { createNewEmployee } from '../../../../../models/utils/createEmployee';
+import { createApiClient } from '../../../../api/utils/apiClient';
+import { FormValidateEvent } from '../../../form/definition/FormEvents';
+import { ForgotMachine } from '../../forgot/machine/ForgotMachine';
+import { LoginMachine } from '../../login/machine/LoginMachine';
+import { RegisterMachine } from '../../register/machine/RegisterMachine';
 import { AuthContext } from '../definition/AuthContext';
 import { AuthEvent } from '../definition/AuthEvents';
 import { AuthSchema, AuthStates } from '../definition/AuthSchema';
-import { AuthMachineConfig } from './AuthMachineConfig';
-import { AuthMachineOptions } from './AuthMachineOptions';
 
 export type AuthState = State<
   AuthContext,
@@ -15,4 +19,97 @@ export type AuthState = State<
   }
 >;
 
-export const AuthMachine = Machine<AuthContext, AuthSchema, AuthEvent>(AuthMachineConfig, AuthMachineOptions);
+export const AuthMachine = createMachine<AuthContext, AuthEvent>(
+  {
+    id: 'auth',
+    initial: 'IDLE',
+    states: {
+      IDLE: {
+        always: {
+          target: 'LOGIN'
+        }
+      },
+      LOGIN: {
+        entry: 'assignLoginRef',
+        on: {
+          REGISTER: {
+            target: 'REGISTER'
+          },
+          FORGOT: {
+            target: 'FORGOT'
+          },
+          VALIDATE: {
+            target: 'AUTHENTICATED',
+            actions: 'assignToken'
+          }
+        }
+      },
+      REGISTER: {
+        entry: 'assignRegisterRef',
+        on: {
+          SIGN_IN: 'LOGIN',
+          VALIDATE: 'LOGIN'
+        }
+      },
+      FORGOT: {
+        entry: 'assignForgotRef',
+        on: {
+          SIGN_IN: 'LOGIN',
+          VALIDATE: 'LOGIN'
+        }
+      },
+      AUTHENTICATED: {
+        entry: 'goToHomePage',
+        type: 'final'
+      }
+    }
+  },
+  {
+    services: {},
+    actions: {
+      assignLoginRef: assign({
+        loginRef: (context) =>
+          spawn(
+            LoginMachine.withContext({
+              apiClient: createApiClient(),
+              email: undefined,
+              password: undefined,
+              errors: undefined
+            }),
+            'LoginService'
+          )
+      }),
+      assignRegisterRef: assign({
+        registerRef: (context) =>
+          spawn(
+            RegisterMachine.withContext({
+              apiClient: createApiClient(),
+              employee: createNewEmployee(),
+              errors: undefined
+            }),
+            'RegisterService'
+          )
+      }),
+      assignForgotRef: assign({
+        forgotRef: (context) =>
+          spawn(
+            ForgotMachine.withContext({
+              apiClient: createApiClient(),
+              email: undefined,
+              errors: undefined
+            }),
+            'ForgotService'
+          )
+      }),
+      assignToken: assign({
+        token: (context, event) => {
+          const token = (event as FormValidateEvent).data;
+          return token;
+        }
+      })
+    },
+    guards: {},
+    activities: {},
+    delays: {}
+  }
+);
