@@ -96,7 +96,7 @@ export const RegisterMachineOptions: FormMachineOptions<RegisterContext> = {
         errors
       };
     }),
-    onValidated: sendParent({ type: FormEvent.Validate }),
+    onValidated: sendParent({ type: FormEvent.VALIDATE }),
     onFormError: assign({
       errors: (context, event) => {
         const { data: eventData } = event as FormErrorEvent;

@@ -33,12 +33,12 @@ export const Login = () => {
   const isLoggedIn = useSelector(loginService, isLoggedInSelector);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    sendToService({ type: FormEvent.UpdateForm, formData: { [event.target.name]: event.target.value } });
+    sendToService({ type: FormEvent.UPDATE_FORM, formData: { [event.target.name]: event.target.value } });
   };
 
   const onSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
-    sendToService({ type: FormEvent.Validate });
+    sendToService({ type: FormEvent.VALIDATE });
   };
 
   return (
@@ -103,12 +103,12 @@ export const Login = () => {
           )}
           <Grid container>
             <Grid item xs>
-              <Link component="button" variant="body2" underline="hover" onClick={() => sendToAuthService({ type: AuthEvents.Forgot })}>
+              <Link component="button" variant="body2" underline="hover" onClick={() => sendToAuthService({ type: AuthEvents.FORGOT })}>
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link component="button" variant="body2" underline="hover" onClick={() => sendToAuthService({ type: AuthEvents.Register })}>
+              <Link component="button" variant="body2" underline="hover" onClick={() => sendToAuthService({ type: AuthEvents.REGISTER })}>
                 Don't have an account? Sign Up
               </Link>
             </Grid>

@@ -45,7 +45,7 @@ export const ForgotMachineOptions: FormMachineOptions<ForgotContext> = {
     }),
     onBlock: assign((context: ForgotContext, event: FormEvents) => context),
     onValidated: sendParent((context, event: DoneEventObject) => {
-      return { type: FormEvent.Validate, data: event.data };
+      return { type: FormEvent.VALIDATE, data: event.data };
     }),
     onFormError: assign({
       errors: (context) => {

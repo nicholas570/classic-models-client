@@ -29,12 +29,12 @@ export const Forgot = () => {
   const emailErrorMessage = useSelector(forgotService, emailErrorSelector);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    sendToService({ type: FormEvent.UpdateForm, formData: { [event.target.name]: event.target.value } });
+    sendToService({ type: FormEvent.UPDATE_FORM, formData: { [event.target.name]: event.target.value } });
   };
 
   const onSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
-    sendToService({ type: FormEvent.Validate });
+    sendToService({ type: FormEvent.VALIDATE });
   };
 
   return (
@@ -88,7 +88,7 @@ export const Forgot = () => {
           )}
           <Grid container justifyContent="center">
             <Grid item>
-              <Link component="button" variant="body2" underline="hover" onClick={() => sendToAuthService({ type: AuthEvents.SignIn })}>
+              <Link component="button" variant="body2" underline="hover" onClick={() => sendToAuthService({ type: AuthEvents.SIGN_IN })}>
                 Already have an account? Sign in
               </Link>
             </Grid>

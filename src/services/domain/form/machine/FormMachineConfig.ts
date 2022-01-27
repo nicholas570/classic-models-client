@@ -38,13 +38,13 @@ export const FormMachineConfig: MachineConfig<any, FormSchema, FormEvents> = {
         }
       ],
       on: {
-        [FormEvent.UpdateForm]: onFormUpdate
+        [FormEvent.UPDATE_FORM]: onFormUpdate
       }
     },
     [FormStates.EditingComplete]: {
       on: {
-        [FormEvent.UpdateForm]: onFormUpdate,
-        [FormEvent.Validate]: FormStates.Submitting
+        [FormEvent.UPDATE_FORM]: onFormUpdate,
+        [FormEvent.VALIDATE]: FormStates.Submitting
       }
     },
     [FormStates.InvalidForm]: {
@@ -55,7 +55,7 @@ export const FormMachineConfig: MachineConfig<any, FormSchema, FormEvents> = {
         cond: 'isFormComplete'
       },
       on: {
-        [FormEvent.UpdateForm]: onFormUpdate
+        [FormEvent.UPDATE_FORM]: onFormUpdate
       }
     },
     [FormStates.Submitting]: {
@@ -81,7 +81,7 @@ export const FormMachineConfig: MachineConfig<any, FormSchema, FormEvents> = {
     },
     [FormStates.ValidationFailed]: {
       on: {
-        [FormEvent.UpdateForm]: onFormUpdate
+        [FormEvent.UPDATE_FORM]: onFormUpdate
       }
     },
     [FormStates.Validated]: {

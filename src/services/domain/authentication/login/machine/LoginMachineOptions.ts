@@ -56,7 +56,7 @@ export const LoginMachineOptions: FormMachineOptions<LoginContext> = {
     }),
     onBlock: assign((context: LoginContext, event: FormEvents) => context),
     onValidated: sendParent((context, event: DoneInvokeEvent<AuthResponse>) => {
-      return { type: FormEvent.Validate, data: event.data.token };
+      return { type: FormEvent.VALIDATE, data: event.data.token };
     }),
     onFormError: assign({
       errors: (context, event) => {
