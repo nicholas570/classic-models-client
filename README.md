@@ -59,7 +59,7 @@ Also works with Yarn
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/nicholas570/xstate-auth.git
+   git clone https://github.com/nicholas570/classic-models-client.git
    ```
 2. Install NPM packages
    ```sh
