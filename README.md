@@ -25,10 +25,9 @@
 
 ## About The Project
 
-This application is a authentication form page. So far, there is no server endpoint. Credentials are "mylogin" and "mypassword".
-The purpose is to handle the authentication process and state in several finite state machines using Xstate.
+The purpose is to handle the authentication process and state in several concrete finite state machines using Xstate.
 <br />
-The app can be seen here: https://xstate-auth.netlify.app/
+The app can be seen here: https://classic-models.netlify.app/
 
 ### Built With
 
